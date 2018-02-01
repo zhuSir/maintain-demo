@@ -1,4 +1,4 @@
-import { Layout, Breadcrumb, Icon } from 'antd';
+import { Layout, Icon, Menu, Dropdown } from 'antd';
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import logo from '../logo.svg';
@@ -6,7 +6,7 @@ import './Main.css'
 import SysMenu from './SysMenu';
 import SysContent from "./SysContent";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Footer, Sider } = Layout;
 
 class SiderDemo extends Component {
 
@@ -17,7 +17,10 @@ class SiderDemo extends Component {
             mode: 'inline',
             meunType:{
                 key:"",
-                keyPath:[]
+                keyPath:[{
+                    path: 'index',
+                    breadcrumbName: '首页'
+                }]
             }
         }
 
@@ -30,15 +33,46 @@ class SiderDemo extends Component {
     }
 
     handeleMeunType =(key,keyPath) =>{
+        /*
+        * [{
+            path: 'index',
+            breadcrumbName: '首页'
+        }, {
+            path: 'first',
+            breadcrumbName: '一级面包屑'
+        }, {
+            path: 'second',
+            breadcrumbName: '当前页面'
+        }]
+        * */
+        const paths = [];
+        for(let a of keyPath.keys()){
+            paths[a]={index:a,breadcrumbName:keyPath[a]};
+        }
         this.setState({
             meunType : {
                 key : key,
-                keyPath:keyPath
+                keyPath:paths
             }
-        })
+        });
+    }
+
+    handleLogout(){
+
     }
 
     render() {
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="#">注销</a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a target="_blank" rel="noopener noreferrer" href="#">切换账号</a>
+                </Menu.Item>
+            </Menu>
+        );
+
         return (
             <Layout>
                 <Sider
@@ -62,7 +96,12 @@ class SiderDemo extends Component {
                         </span>
                         <span style={{color:'#fff', paddingLeft:'2%', fontSize:'1.4em'}}>报障管理系统</span>
                         <span style={{color:'#fff', float:'right', paddingRight:'1%'}}>
-                            <img src={logo} className="App-logo" alt="logo" />
+                            {/*<img src={logo} className="App-logo" alt="logo" />*/}
+                            <Dropdown overlay={menu}>
+                                <a href="#">
+                                   <Icon type="logout" style={{ fontSize: 25, color: '#fff'}} />
+                                </a>
+                            </Dropdown>
                         </span>
                     </Header>
 

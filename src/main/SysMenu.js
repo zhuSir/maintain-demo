@@ -30,13 +30,17 @@ class SysMenu extends Component{
                 </SubMenu>
                 <SubMenu
                     key="sub2"
-                    title={<span><Icon type="team" /><span>部门管理</span></span>}>
+                    title={<span><Icon type="team" /><span>公司管理</span></span>}>
                     <Menu.Item key="6">研发部</Menu.Item>
                     <Menu.Item key="8">养发部</Menu.Item>
                 </SubMenu>
                 <Menu.Item key="9">
-                    <Icon type="file" />
-                    <span>文件管理</span>
+                    <Icon type="profile" />
+                    <span>项目管理</span>
+                </Menu.Item>
+                <Menu.Item key="10">
+                    <Icon type="schedule" />
+                    <span>报修管理</span>
                 </Menu.Item>
             </Menu>
         );
