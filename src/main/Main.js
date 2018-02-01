@@ -65,10 +65,14 @@ class SiderDemo extends Component {
         const menu = (
             <Menu>
                 <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="#">注销</a>
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                        <Icon type="logout"/>
+                        注销</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="#">切换账号</a>
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                        <Icon type="switcher"/>
+                        切换账号</a>
                 </Menu.Item>
             </Menu>
         );
@@ -99,7 +103,7 @@ class SiderDemo extends Component {
                             {/*<img src={logo} className="App-logo" alt="logo" />*/}
                             <Dropdown overlay={menu}>
                                 <a href="#">
-                                   <Icon type="logout" style={{ fontSize: 25, color: '#fff'}} />
+                                    <Icon type="setting" style={{ fontSize: 25, color: '#fff'}}  />
                                 </a>
                             </Dropdown>
                         </span>
