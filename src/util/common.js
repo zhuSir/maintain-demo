@@ -2,6 +2,7 @@
  * Created by BinYiChen on 2018/1/31.
  */
 import axios from 'axios';
+import {message} from 'antd';
 const url = 'http://localhost:8080/common';
 
 //设置全局默认请求头
@@ -102,4 +103,27 @@ export const guid = () => {
         let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
+}
+
+export const httpError =(res) =>{
+    var statusCode = res.statusCode;
+    var showMsg = '连接错误,请检查网络或联系管理员';
+    switch (statusCode && res.readyState>2) {
+        case 400:
+            showMsg = '请求失败，请联系管理员';
+            break;
+        case 403:
+            showMsg = '禁止访问，请联系管理员';
+            break;
+        case 404:
+            showMsg = '无法找到文件,请联系管理员';
+            break;
+        case 414:
+            showMsg = '请求 - URI 太长,请联系管理员';
+            break;
+        case 500:
+            showMsg = '内部服务器错误,请联系管理员';
+            break;
+    }
+    message.error(showMsg);
 }

@@ -1,7 +1,7 @@
 /**
  * Created by BinYiChen on 2018/2/1.
  */
-import {Table, Button, Modal, Form, Input, Cascader, Divider, DatePicker, Menu, Dropdown, Icon} from 'antd';
+import {Table, Button, Modal, Form, Input, Cascader, Divider, DatePicker, Menu, Dropdown, Icon,notification} from 'antd';
 import 'antd/dist/antd.css';
 import React, {Component} from 'react';
 import * as net from '../../util/common';
@@ -67,7 +67,10 @@ class Equip extends Component {
                         this.setState({detailVisible: false});
                     }
                 ).catch(
-                    error => console.log(error)
+                    error => {
+                        net.httpError(error);
+                        console.log(error)
+                    }
                 );
             }
         )
@@ -82,7 +85,10 @@ class Equip extends Component {
                 })
             }
         ).catch(
-            error => console.log(error)
+            error => {
+                net.httpError(error);
+                console.log(error)
+            }
         )
     }
 
@@ -163,6 +169,5 @@ const EquipCreateForm = Form.create()(
         );
     }
 );
-
 
 export default Equip;
