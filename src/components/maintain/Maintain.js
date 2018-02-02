@@ -1,26 +1,48 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'antd';
+import { Link } from 'react-router';
 
-const data = [{
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
+const data = [];
+for (let i = 0; i < 46; i++) {
+    data.push({
+        faultCode: i,
+        projectName: `Edward King ${i}`,
+        remarkReason: 32,
+        faultType: `London, Park Lane no. ${i}`,
+        createtime:'',
+        equipName:'equip name',
+        faultUserName:'lucy ',
+    });
+}
+
+const columns = [{
+    title: '报障单号',
+    dataIndex: 'faultCode',
+    key: 'faultCode'
 }, {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
+    title: '项目名称',
+    dataIndex: 'projectName',
+    key: 'projectName'
 }, {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-}, {
-    key: '4',
-    name: 'Jim Red',
-    age: 32,
-    address: 'London No. 2 Lake Park',
+    title: '报障内容',
+    dataIndex: 'remarkReason',
+    key: 'remarkReason'
+},{
+    title: '报障类型',
+    dataIndex: 'faultType',
+    key: 'faultType'
+},{
+    title: '创建时间',
+    dataIndex: 'createtime',
+    key: 'createtime'
+},{
+    title: '设备名称',
+    dataIndex: 'equipName',
+    key: 'equipName'
+},{
+    title: '报障人名称',
+    dataIndex: 'faultUserName',
+    key: 'faultUserName'
 }];
 
 class Maintain extends Component {
@@ -28,73 +50,14 @@ class Maintain extends Component {
         filteredInfo: null,
         sortedInfo: null,
     };
-    handleChange = (pagination, filters, sorter) => {
-        console.log('Various parameters', pagination, filters, sorter);
-        this.setState({
-            filteredInfo: filters,
-            sortedInfo: sorter,
-        });
-    }
-    clearFilters = () => {
-        this.setState({ filteredInfo: null });
-    }
-    clearAll = () => {
-        this.setState({
-            filteredInfo: null,
-            sortedInfo: null,
-        });
-    }
-    setAgeSort = () => {
-        this.setState({
-            sortedInfo: {
-                order: 'descend',
-                columnKey: 'age',
-            },
-        });
-    }
+
     render() {
-        let { sortedInfo, filteredInfo } = this.state;
-        sortedInfo = sortedInfo || {};
-        filteredInfo = filteredInfo || {};
-        const columns = [{
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            filters: [
-                { text: 'Joe', value: 'Joe' },
-                { text: 'Jim', value: 'Jim' },
-            ],
-            filteredValue: filteredInfo.name || null,
-            onFilter: (value, record) => record.name.includes(value),
-            sorter: (a, b) => a.name.length - b.name.length,
-            sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-        }, {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
-            sorter: (a, b) => a.age - b.age,
-            sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
-        }, {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-            filters: [
-                { text: 'London', value: 'London' },
-                { text: 'New York', value: 'New York' },
-            ],
-            filteredValue: filteredInfo.address || null,
-            onFilter: (value, record) => record.address.includes(value),
-            sorter: (a, b) => a.address.length - b.address.length,
-            sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-        }];
         return (
             <div>
-                <div className="table-operations">
-                    <Button onClick={this.setAgeSort}>Sort age</Button>
-                    <Button onClick={this.clearFilters}>Clear filters</Button>
-                    <Button onClick={this.clearAll}>Clear filters and sorters</Button>
+                <div className="table-operations" style={{ marginBottom: 16 }}>
+                    <Button type="primary">添加报障</Button>
                 </div>
-                <Table columns={columns} dataSource={data} onChange={this.handleChange} />
+                <Table columns={columns} dataSource={data} />
             </div>
         );
     }
