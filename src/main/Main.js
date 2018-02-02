@@ -6,6 +6,8 @@ import './Main.css'
 import SysMenu from './SysMenu';
 import SysContent from "./SysContent";
 
+import {BrowserRouter as Router,Route,Link} from 'react-router-dom';
+
 const { Header, Footer, Sider } = Layout;
 
 class SiderDemo extends Component {
@@ -33,18 +35,6 @@ class SiderDemo extends Component {
     }
 
     handeleMeunType =(key,keyPath) =>{
-        /*
-        * [{
-            path: 'index',
-            breadcrumbName: '首页'
-        }, {
-            path: 'first',
-            breadcrumbName: '一级面包屑'
-        }, {
-            path: 'second',
-            breadcrumbName: '当前页面'
-        }]
-        * */
         const paths = [];
         for(let a of keyPath.keys()){
             paths[a]={index:a,breadcrumbName:keyPath[a]};
@@ -74,6 +64,7 @@ class SiderDemo extends Component {
         );
 
         return (
+            <Router>
             <Layout>
                 <Sider
                     trigger={null}
@@ -112,6 +103,7 @@ class SiderDemo extends Component {
                     </Footer>
                 </Layout>
             </Layout>
+            </Router>
         );
     }
 }
