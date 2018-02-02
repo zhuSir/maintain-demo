@@ -50,7 +50,7 @@ class SysMenu extends Component{
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="设备管理">
-                    <Link to="/maintain">
+                    <Link to="/equip">
                         <Icon type="tool" />
                         <span>设备管理</span>
                     </Link>
