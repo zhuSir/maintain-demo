@@ -1,7 +1,18 @@
 /**
  * Created by BinYiChen on 2018/2/1.
  */
-import {Table, Button, Modal, Form, Input, Cascader, Divider, DatePicker, Menu, Dropdown, Icon,notification} from 'antd';
+import {
+    Table,
+    Button,
+    Modal,
+    Form,
+    Input,
+    Cascader,
+    Divider,
+    Popconfirm,
+    DatePicker,
+    message
+} from 'antd';
 import 'antd/dist/antd.css';
 import React, {Component} from 'react';
 import * as net from '../../util/common';
@@ -29,12 +40,33 @@ class Equip extends Component {
                 dataIndex: 'equipModel',
                 key: 'equipModel',
             }, {
+                title: '省',
+                dataIndex: 'province',
+                key: 'province',
+            }, {
+                title: '市',
+                dataIndex: 'city',
+                key: 'city',
+            }, {
+                title: '区',
+                dataIndex: 'area',
+                key: 'area',
+            }, {
+                title: '设备详情',
+                dataIndex: 'equipDetail',
+                key: 'equipDetail',
+            }, {
                 title: '操作',
                 dataIndex: 'action',
                 key: 'action',
-                render: (text, record) => (
+                render: (text, record, index) => (
                     <span>
                         <Button type="primary" onClick={this.showModal}>编辑</Button>
+                        <Divider type="vertical"/>
+                        <Popconfirm title="删除不可恢复，你确定要删除吗?" okText="确认" cancelText="取消"
+                                    onConfirm={this.doDelete.bind(this, record, index)}>
+                            <Button type="primary">删除</Button>
+                        </Popconfirm>
                         <Divider type="vertical"/>
                         <Button type="primary" onClick={this.showModal}>查看详情</Button>
                     </span>
@@ -45,6 +77,21 @@ class Equip extends Component {
 
     showModal = () => {
         this.setState({detailVisible: true});
+    }
+
+    doDelete = (record, index) => {
+        net.axiosPost('deleteEquip', 'equipController', record.id, net.guid()).then(
+            response => {
+                console.log(response.data.result);
+                if (response.data.result == 'true') {
+                    const dataSource = [...this.state.dataSource];
+                    dataSource.splice(index, 1);
+                    this.setState({dataSource});
+                } else {
+                    message.error(response.data.reason);
+                }
+            }
+        )
     }
 
     handleCancel = () => {
@@ -61,15 +108,21 @@ class Equip extends Component {
                 if (err) {
                     return
                 }
+                let address = values['city'];
+                values['province'] = address[0];
+                values['city'] = address[1];
+                values['area'] = address[2];
                 net.axiosPost('saveEquip', 'equipController', values, net.guid()).then(
                     response => {
                         form.resetFields();
-                        this.setState({detailVisible: false});
+                        let insertEntity = response.data.data;
+                        let source = this.state.dataSource;
+                        source.push(insertEntity);
+                        this.setState({detailVisible: false, dataSource: source});
                     }
                 ).catch(
                     error => {
                         net.httpError(error);
-                        console.log(error)
                     }
                 );
             }
@@ -87,7 +140,6 @@ class Equip extends Component {
         ).catch(
             error => {
                 net.httpError(error);
-                console.log(error)
             }
         )
     }
@@ -150,9 +202,9 @@ const EquipCreateForm = Form.create()(
                         {getFieldDecorator('city', {
                             initialValue: ['福建省', '厦门市', '思明区'],
                             rules: [{type: 'array'}],
-                        })(<Cascader options={areaData}/>)}
+                        })(<Cascader key='value' options={areaData}/>)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="设备地址">
+                    <FormItem {...formItemLayout} label="详细地址">
                         {getFieldDecorator('address')(<Input type="text"/>)}
                     </FormItem>
                     <FormItem {...formItemLayout} label="投入时间">
@@ -161,9 +213,9 @@ const EquipCreateForm = Form.create()(
                     <FormItem {...formItemLayout} label="保修时间">
                         {getFieldDecorator('guaranteePeriod')(<DatePicker />)}
                     </FormItem>
-                    <FormItem {...formItemLayout} label="设备类别">
-                        {getFieldDecorator('equipTypeId')(<Input type="textarea"/>)}
-                    </FormItem>
+                    {/*<FormItem {...formItemLayout} label="设备类别">*/}
+                    {/*{getFieldDecorator('equipTypeId')(<Input type="textarea"/>)}*/}
+                    {/*</FormItem>*/}
                 </Form>
             </Modal>
         );

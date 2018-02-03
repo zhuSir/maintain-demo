@@ -5353,6 +5353,34 @@ const area = [
     }
 ]
 
+const areaData =(arr) =>{
+    let newArea = [];
+    arr.map(area => {
+        let data = {
+            value: area,
+            label: area
+
+        }
+        newArea.push(data);
+    })
+    return newArea;
+}
+
+const cityData =(arr) =>{
+    let newArea = [];
+    arr.map(city => {
+        let data = {
+            value: city.name,
+            label: city.name,
+            children:areaData(city.area)
+
+        }
+        newArea.push(data);
+    })
+    return newArea;
+}
+
+
 export const addressData = () => {
     let newArea = [];
     area.map(item => {
@@ -5367,29 +5395,3 @@ export const addressData = () => {
     return newArea;
 }
 
-const cityData =(arr) =>{
-    let newArea = [];
-    arr.map(city => {
-        let data = {
-            name: city.name,
-            label: city.name,
-            children:areaData(city.area)
-
-        }
-        newArea.push(data);
-    })
-    return newArea;
-}
-
-const areaData =(arr) =>{
-    let newArea = [];
-    arr.map(area => {
-        let data = {
-            name: area,
-            label: area
-
-        }
-        newArea.push(data);
-    })
-    return newArea;
-}
