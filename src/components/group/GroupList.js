@@ -113,6 +113,11 @@ class GroupList extends Component {
         }
         return true;
     }
+    lookGroupListBtnClick(id,event){
+        console.log(id);
+
+    }
+
 
     render() {
         const columns = [{
@@ -128,6 +133,8 @@ class GroupList extends Component {
                         groupItem={record}
                         handleDeleteRecord={this.removeGroup.bind(this)}
                         handleInviteRecord={this.inviteGroupMember.bind(this)}
+                        lookGroupHandle={this.lookGroupListBtnClick.bind(this)}
+
                     />
                 ),
             }
@@ -139,7 +146,10 @@ class GroupList extends Component {
                     rowKey="id"
                     className="ml-5 mr-5 mt-3"
                     columns={columns}
-                    dataSource={this.state.groupList}/>
+                    dataSource={this.state.groupList}
+                />
+
+
             </div>
         )
     }
