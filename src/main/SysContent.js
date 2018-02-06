@@ -1,6 +1,5 @@
 import React, {Component } from 'react';
 import { Layout, Breadcrumb } from 'antd';
-
 import {Route} from 'react-router-dom';
 
 import 'antd/dist/antd.css';
@@ -9,10 +8,9 @@ import Records from '../components/records/Records';
 import Equip from '../components/equip/Equip';
 import WeiBao from '../components/maintain/WeiBao';
 import Company from '../components/company/Company';
-import LoginForm from '../components/company/LoginForm'
 import SettingGroup from '../components/groupauthority/SettingGroup';
 import GroupList from '../components/group/GroupList'
-import GroupMemberList from '../components/company/GroupMemberList'
+import MemberList from '../components/company/MemberList'
 const { Content } = Layout;
 
 const Home = () => (
@@ -36,9 +34,10 @@ class SysContent extends Component{
                         <Route path="/equip" component={Equip}/>
                         <Route path="/groupauthority" component={SettingGroup}/>
                         <Route path="/company" component={Company}/>
-                        <Route path="/login" component={LoginForm}/>
                         <Route path="/group" component={GroupList}/>
-                        <Route path="/GroupMemberList" component={GroupMemberList}/>
+
+                        <Route path="/companyMemberList" component={MemberList}/>
+
 
                     </div>
                 </div>

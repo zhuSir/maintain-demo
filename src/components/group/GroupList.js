@@ -78,7 +78,7 @@ class GroupList extends Component {
                 response => {
                     const res = response.data.data;
                     if (res.code == 0) {
-                        message.success(res.infxo)
+                        message.success(res.info)
                     } else if (res.code == 1) {
                         message.warning(res.info)
                     }
@@ -166,7 +166,7 @@ render()
         return (
             <div>
                 <CreatCompanyAlert handleCreatgroup={this.handleCreatCompanyBackfunction.bind(this)} type={2}/>
-                <Table
+                <Table style={{ marginTop: 16 }}
                     rowKey="id"
                     className="ml-5 mr-5 mt-3"
                     columns={columns}
