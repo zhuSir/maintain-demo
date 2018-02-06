@@ -16,7 +16,7 @@ handleToggle(){
     });
 }
 
-handleEdit(){
+handleEdit(event){
     event.preventDefault();
     const record = {
 	      id: this.refs.id.value,

@@ -60,6 +60,37 @@ class SysMenu extends Component{
                         <span>设备管理</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="权限管理">
+                    <Link to="/groupauthority">
+                        <Icon type="tool" />
+                        <span>权限管理</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="组公司管理">
+                    <Link to="/company">
+                        <Icon type="tool" />
+                        <span>组公司</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="登录">
+                    <Link to="/login">
+                        <Icon type="tool" />
+                        <span>登录</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="组">
+                    <Link to="/group">
+                        <Icon type="tool" />
+                        <span>组</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="组成员">
+                    <Link to="/GroupMemberList">
+                        <Icon type="tool" />
+                        <span>组成员</span>
+                    </Link>
+                </Menu.Item>
+
             </Menu>
         );
     }
