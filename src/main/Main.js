@@ -1,12 +1,11 @@
 import { Layout, Icon, Menu, Dropdown } from 'antd';
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import logo from '../logo.svg';
 import './Main.css'
 import SysMenu from './SysMenu';
 import SysContent from "./SysContent";
 
-import {BrowserRouter as Router,Route,Link} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 const { Header, Footer, Sider } = Layout;
 
