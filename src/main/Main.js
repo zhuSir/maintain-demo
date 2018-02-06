@@ -1,7 +1,6 @@
 import { Layout, Icon, Menu, Dropdown } from 'antd';
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import logo from '../logo.svg';
 import './Main.css'
 import SysMenu from './SysMenu';
 import SysContent from "./SysContent";
@@ -99,7 +98,7 @@ class SiderDemo extends Component {
                     <SysContent meunType={this.state.meunType} />
 
                     <Footer style={{ textAlign: 'center' }}>
-                        maintain ©2016 Created by dongdong
+                        maintain ©2018 Created by dongdong
                     </Footer>
                 </Layout>
             </Layout>
