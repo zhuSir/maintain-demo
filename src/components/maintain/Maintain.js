@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
-import {Table, Button, Modal, Form, Input,InputNumber,Transfer, Cascader,Radio, Divider, DatePicker, Menu, Dropdown, Icon,notification} from 'antd';
+import {Table, Button, Modal, Form, Input, message,Radio,} from 'antd';
 import * as net from '../../util/common';
 import $ from 'jquery';
-import * as areaHelper from '../../util/area';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import EquipTables from './EquipTables';
+import ProjectTables from './ProjectTables'
+
 const FormItem = Form.Item;
 const { TextArea } = Input;
-const RadioGroup = Radio.Group;
+moment.locale('zh-cn');
 
-const mockData = [];
-for (let i = 0; i < 20; i++) {
-    mockData.push({
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-        disabled: i % 3 < 1,
-    });
-}
-
-const targetKeys = mockData
-    .filter(item => +item.key % 3 > 1)
-    .map(item => item.key);
 
 class Maintain extends Component {
 
@@ -50,7 +41,8 @@ class Maintain extends Component {
             },{
                 title: '创建时间',
                 dataIndex: 'createtime',
-                key: 'createtime'
+                key: 'createtime',
+                render:(text,record)=> (moment(record.createtime).format("YYYY-MM-DD HH:mm:ss"))
             },{
                 title: '设备名称',
                 dataIndex: 'equipName',
@@ -60,6 +52,8 @@ class Maintain extends Component {
                 dataIndex: 'username',
                 key: 'username'
             }],
+            projectId:0,
+            equipId:0,
             formVisible: false,
             projectListVisible:false,
             equipListVisible:false,
@@ -68,9 +62,50 @@ class Maintain extends Component {
     }
 
     handleOk=()=>{
-        this.setState({
-            formVisible:false
-        })
+        const form = this.form;
+        form.validateFields((err, values) => {
+            console.log("error message: ",err,values);
+            if (err) {
+                return
+            }
+            values.projectId =this.state.projectId;
+            values.equipId =this.state.equipId;
+            if(!values.maintainPhone){
+                message.error("请输入维修人电话号码");
+                return ;
+            }
+            if(!values.maintainName){
+                message.error("请输入维修人姓名");
+                return ;
+            }
+            if(!values.remarkReason){
+                message.error("请输入报修信息");
+                return ;
+            }
+            if(values.equipId === 0){
+                message.error("请选择报修设备");
+                return ;
+            }
+            if(values.projectId ===0 ){
+                message.error("请选择报修项目");
+                return ;
+            }
+            if(!values.faultType){
+                message.error("请选择报修类型");
+                return ;
+            }
+            values.faultUserId=net.getCookie("userId");
+            $.post("http://localhost:8080/fault/add",values).then(
+                response=>{
+                    message.success(response);
+                    this.setState({
+                        formVisible:false
+                    })
+                },
+                error => console.log(error)
+            )
+            }
+        )
     }
 
     handleCancel=()=>{
@@ -85,30 +120,19 @@ class Maintain extends Component {
         })
     }
 
-    handleCreate =() => {
-        const form = this.form;
-        form.validateFields((err, values) => {
-                if (err) {
-                    return
-                }
-                net.axiosPost('saveEquip', 'equipController', values, net.guid()).then(
-                    response => {
-                        form.resetFields();
-                        this.setState({formVisible: false});
-                    }
-                ).catch(
-                    error => {
-                        net.httpError(error);
-                        console.log(error)
-                    }
-                );
-            }
-        )
+    setEquipId=(id)=>{
+        this.setState({
+            equipId:id
+        })
+    }
+
+    setProjectId=(id)=>{
+        this.setState({
+            projectId:id
+        })
     }
 
     render() {
-        // const data = [{"remarkReason":"1","faultCode":"1","createtime":1516740176000,"equipName":"新增设备","companyName":"第一个公司","faultType":"1","projectName":"测试项目创建","key":1,"username":"fafafd"}];
-
         return (
             <div>
                 <div className="table-operations" style={{ marginBottom: 16 }}>
@@ -119,18 +143,17 @@ class Maintain extends Component {
                            confirmLoading={this.state.confirmLoading}
                            onCancel={this.handleCancel}>
 
-                            <FaultForm
-                                // projectListVisible={this.state.projectListVisible}
-                                //        handleProjectOk={this.handleProjectOk}
-                                //        handleProjectCancel={this.handleProjectCancel}
-                                //        handleAddProject={this.handleAddProject}
-                            />
+                            <FaultForm ref={this.saveFormRef} setEquipId={this.setEquipId} setProjectId={this.setProjectId}/>
 
                     </Modal>
                 </div>
                 <Table columns={this.state.columns} dataSource={this.state.data} />
             </div>
         );
+    }
+
+    saveFormRef = (form) => {
+        this.form = form;
     }
 
     componentDidMount(){
@@ -158,15 +181,14 @@ const formItemLayout = {
 };
 
 class FaultFormObject extends Component{
-
     constructor(){
         super();
         this.state={
-            selectedEquipName:"",
-            projectObjectName:"",
+            equipObject:{},
+            projectObject:{},
             projectListVisible:false,
             equipListVisible:false,
-            projectSelectVisible:false
+            faultType:1
         }
     }
 
@@ -175,7 +197,7 @@ class FaultFormObject extends Component{
         return (
             <Form layout="vertical">
                 <FormItem {...formItemLayout} label="维修人电话">
-                    {getFieldDecorator('maintainTel')(
+                    {getFieldDecorator('maintainPhone')(
                         <Input type="text" placeholder="维修人电话"/>
                     )}
                 </FormItem>
@@ -183,15 +205,15 @@ class FaultFormObject extends Component{
                     {getFieldDecorator('maintainName')(<Input type="text" placeholder="维修人名称"/>)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="维修说明">
-                    {getFieldDecorator('reasonRemark')(
+                    {getFieldDecorator('remarkReason')(
                         <TextArea placeholder="维修说明" autosize={{ minRows: 2, maxRows: 6 }} />
                     )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="选择项目">
-                    {getFieldDecorator('project')(
+                    {getFieldDecorator('projectId')(
                         <div>
-                            <Input type="text" placeholder="未选择项目" defaultValue={this.state.projectObjectName}/>
-                            <br/>
+                            <Input placeholder="未选择项目" value={this.state.projectObject.name}/>
+                            <br />
                             <Button onClick={this.handleAddProject}>选择项目</Button>
                             <ProjectTables
                                 projectObject={this.selectProject}
@@ -203,48 +225,64 @@ class FaultFormObject extends Component{
                     )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="选择设备">
-                    {getFieldDecorator('equip')(
-
+                    {getFieldDecorator('equipId')(
                         <div>
-                            <Input type="text" placeholder="未选择设备" defaultValue={this.state.selectedEquipName}/>
-                            <br/>
+                            <Input type="text" placeholder="未选择设备" value={this.state.equipObject.equipName}/>
+                            <br />
                             <Button onClick={this.handleAddEquips}>选择设备</Button>
-                            <ProjectTables
-                                projectObject={this.selectProject}
-                                projectListVisible={this.state.projectListVisible}
-                                handleProjectOk={this.handleProjectOk}
-                                handleProjectCancel={this.handleProjectCancel}
+                            <EquipTables
+                                equipObject={this.selectEquip}
+                                equipListVisible={this.state.equipListVisible}
+                                handleEquipOk={this.handleEquipOk}
+                                handleEquipCancel={this.handleEquipCancel}
                             />
                         </div>
                     )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="报障类型">
                     {getFieldDecorator('faultType')(
-                        <input defaultValue={this.state.projectObjectName}/>
+                        <Radio.Group>
+                            <Radio value={1} checked={true}>一遍</Radio>
+                            <Radio value={2}>紧急</Radio>
+                            <Radio value={3}>特急</Radio>
+                        </Radio.Group>
                     )}
                 </FormItem>
             </Form>
         );
     }
 
+
     selectProject=(obj)=>{
         this.setState({
-            projectObjectName:"aasssdfsdf",
-            projectListVisible:false,
-            projectSelectVisible:false,
-        })
-        console.log("projectObjectName",this.state.projectObjectName);
+            projectObject:obj
+        });
+        this.props.setProjectId(obj.id);
     }
-
+    selectEquip=(obj)=>{
+        this.setState({
+            equipObject:obj
+        });
+        this.props.setEquipId(obj.id);
+    }
     handleProjectCancel=()=>{
         this.setState({
             projectListVisible:false
         })
     }
-
     handleProjectOk=()=>{
         this.setState({
             projectListVisible:false
+        })
+    }
+    handleEquipCancel=()=>{
+        this.setState({
+            equipListVisible:false
+        })
+    }
+    handleEquipOk=()=>{
+        this.setState({
+            equipListVisible:false
         })
     }
 
@@ -253,125 +291,14 @@ class FaultFormObject extends Component{
             projectListVisible:true
         })
     }
-
     handleAddEquips=()=>{
         this.setState({
             equipListVisible:true
         })
     }
 
-
 }
 
 const FaultForm = Form.create()(FaultFormObject);
-
-
-class ProjectTables extends Component{
-    constructor(){
-        super();
-        this.state={
-            dataSource : [{
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号'
-            }, {
-                key: '2',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号'
-            },{
-                key: '3',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号'
-            }, {
-                key: '4',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号'
-            },{
-                key: '5',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号'
-            }, {
-                key: '6',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号'
-            },{
-                key: '7',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号'
-            }, {
-                key: '8',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号'
-            },{
-                key: '9',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号'
-            }, {
-                key: '10',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号'
-            },{
-                key: '11',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号'
-            }, {
-                key: '12',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号'
-            }],
-            columns : [{
-                title: '姓名',
-                dataIndex: 'name',
-                key: 'name',
-            }, {
-                title: '年龄',
-                dataIndex: 'age',
-                key: 'age',
-            }, {
-                title: '住址',
-                dataIndex: 'address',
-                key: 'address',
-            }]
-        }
-    }
-    render(){
-        const rowSelectionObject={
-            onChange:this.handleChangeRow,
-            type :"radio",
-            fixed:true
-        };
-        return (
-            <div>
-                <Modal title="添加报障信息"
-                       visible={this.props.projectListVisible}
-                       onOk={this.props.handleProjectOk}
-                       onCancel={this.props.handleProjectCancel}
-                    >
-
-                    <Table dataSource={this.state.dataSource} columns={this.state.columns} rowSelection={rowSelectionObject} />
-
-                </Modal>
-            </div>
-
-        );
-    }
-    handleChangeRow=(event)=>{
-        const index = event[0];
-        const projectObj = this.state.dataSource[index];
-        this.props.projectObject(projectObj);
-    }
-}
 
 export default Maintain;
