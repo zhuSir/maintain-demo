@@ -49,6 +49,12 @@ class SysMenu extends Component{
                         <span>报修管理</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="维修管理">
+                    <Link to="/weibao">
+                        <Icon type="exception" />
+                        <span>维修管理</span>
+                    </Link>
+                </Menu.Item>
                 <Menu.Item key="设备管理">
                     <Link to="/equip">
                         <Icon type="tool" />

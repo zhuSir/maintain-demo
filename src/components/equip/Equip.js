@@ -29,7 +29,7 @@ class Equip extends Component {
         super();
         this.state = {
             dataSource: [],
-            modifyIndex:null,
+            modifyIndex: null,
             fields: {
                 id: {
                     value: 0
@@ -118,7 +118,7 @@ class Equip extends Component {
                         fields.city = {value: new Array(record.province, record.city, record.area)};
                         that.setState({
                             fields: {...that.state.fields, ...fields},
-                            modifyIndex:index
+                            modifyIndex: index
                         })
                     } else {
                         message.error(response.data.reason);
@@ -142,7 +142,7 @@ class Equip extends Component {
             fields.city = {value: new Array('福建省', '厦门市', '思明区')};
             that.setState({
                 fields: {...that.state.fields, ...fields},
-                modifyIndex:null
+                modifyIndex: null
             })
         }
         this.setState({detailVisible: true});
@@ -195,7 +195,7 @@ class Equip extends Component {
                                 let source = this.state.dataSource;
                                 source.push(insertEntity);
                                 this.setState({detailVisible: false, dataSource: source});
-                            }else {
+                            } else {
                                 message.error(response.data.reason);
                             }
                         }
@@ -205,13 +205,13 @@ class Equip extends Component {
                         }
                     );
                 } else {
-                    net.axiosPost('updateEquip','equipController', values, net.guid()).then(
+                    net.axiosPost('updateEquip', 'equipController', values, net.guid()).then(
                         response => {
-                            if (response.data.result === 'true'){
+                            if (response.data.result === 'true') {
                                 form.resetFields();
                                 const dataSource = [...this.state.dataSource];
-                                dataSource.splice(this.state.modifyIndex, 1,response.data.data);
-                                this.setState({detailVisible: false,dataSource});
+                                dataSource.splice(this.state.modifyIndex, 1, response.data.data);
+                                this.setState({detailVisible: false, dataSource});
                             } else {
                                 message.error(response.data.reason);
                             }
@@ -244,7 +244,9 @@ class Equip extends Component {
     render() {
         return (
             <div>
-                <Button type="primary" onClick={this.showModal}>新增</Button>
+                <div className="table-operations" style={{marginBottom: 16}}>
+                    <Button type="primary" onClick={this.showModal}>新增</Button>
+                </div>
                 <Table rowKey='id' dataSource={this.state.dataSource} columns={this.state.columns}/>
                 <EquipCreateForm {...this.state.fields} ref={this.saveFormRef}
                                  visible={this.state.detailVisible} onCancel={this.handleCancel}
@@ -313,7 +315,7 @@ const EquipCreateForm = Form.create({
             <Modal visible={visible} title="新增设备" okText="确认" cancelText="取消" onCancel={onCancel} onOk={onCreate}
                    mask={true} maskClosable={false} width={600} destroyOnClose={true}>
                 <Form layout="vertical">
-                    <FormItem {...formItemLayout} label="设备ID">
+                    <FormItem {...formItemLayout}>
                         {getFieldDecorator('id')(<Input type="hidden"/>)}
                     </FormItem>
                     <FormItem {...formItemLayout} label="设备名称">
