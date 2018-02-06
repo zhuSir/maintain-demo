@@ -1,11 +1,7 @@
 import React, {Component } from 'react';
-import { Layout, Breadcrumb,Alert } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 
 import 'antd/dist/antd.css';
 import Maintain from '../components/maintain/Maintain';

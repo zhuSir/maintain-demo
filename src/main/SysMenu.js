@@ -1,8 +1,7 @@
 import React, {Component } from 'react';
 import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import {BrowserRouter as Router,Route,Link} from 'react-router-dom';
-const SubMenu = Menu.SubMenu;
+import {Link} from 'react-router-dom';
 
 class SysMenu extends Component{
 
