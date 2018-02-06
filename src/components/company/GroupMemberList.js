@@ -30,8 +30,6 @@ class GroupMemberList extends Component {
 
         common.axiosPost("listGroupMember", "groupControllrer", data, common.guid()).then(
             response => {
-                console.log(response+"success")
-
                 this.setState({
                     userList: response.data.data.data
                 })
