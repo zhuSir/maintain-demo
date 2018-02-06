@@ -16,8 +16,6 @@ class GroupMemberList extends Component {
             userList: []
         }
     }
-
-
     userInfo(id, event) {
         alert(id)
     }
