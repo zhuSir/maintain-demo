@@ -8,10 +8,11 @@ import * as common from '../../util/common.js';
 
 class GroupMemberList extends Component {
 
-    constructor() {
-        super();
+    constructor(event) {
+        super(event);
+
         this.state = {
-            groupId: 83,
+            groupId: this.props.groupid,
             userList: []
         }
     }
@@ -22,12 +23,16 @@ class GroupMemberList extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.groupid)
+
         let data = {
-            groupId:this.state.groupId
+            groupId:this.props.groupid
         };
 
         common.axiosPost("listGroupMember", "groupControllrer", data, common.guid()).then(
             response => {
+                console.log(response+"success")
+
                 this.setState({
                     userList: response.data.data.data
                 })
