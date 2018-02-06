@@ -58,6 +58,13 @@ export default  class InviteGroupPeople extends Component {
         })
     }
 
+
+    lookGropListBtnClick(id,event){
+        //lookGroupHandle
+        this.props.lookGroupHandle(this.props.groupItem.id);
+
+    }
+
     render() {
         let retunResult;
         if (this.state.type == 1) {
@@ -72,7 +79,7 @@ export default  class InviteGroupPeople extends Component {
             <div className="row">
                 <Button onClick={this.showModal}>邀请</Button>
                 <Button onClick={this.showdeleteModal} className="ml-3">删除组</Button>
-                <Button className="ml-3">查看组成员{this.props.groupItem.id}</Button>
+                <Button className="ml-3 mr-3"onClick={this.lookGropListBtnClick.bind(this,this.props.groupItem.id)} >查看组成员</Button>
 
                 <Modal
                     title={this.state.creatBtnName}
