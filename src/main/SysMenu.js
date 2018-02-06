@@ -2,7 +2,6 @@ import React, {Component } from 'react';
 import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import {Link} from 'react-router-dom';
-
 class SysMenu extends Component{
 
     handleSelectItem({ item,key, keyPath}){
@@ -24,12 +23,14 @@ class SysMenu extends Component{
                         <span>统计</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="人员管理">
+                {/*
+                  <Menu.Item key="人员管理">
                     <Link to="/maintain">
                         <Icon type="user" />
                         <span>人员管理</span>
                     </Link>
                 </Menu.Item>
+                */}
                 <Menu.Item key="公司管理">
                     <Link to="/maintain">
                         <Icon type="team" />

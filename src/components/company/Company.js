@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import CreatCompanyAlert from './CreatCompanyAlert'
 import {message} from 'antd';
+import 'antd/dist/antd.css';
 
 import * as common from '../../util/common.js';
 
