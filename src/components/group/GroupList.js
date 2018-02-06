@@ -4,15 +4,18 @@ import 'antd/dist/antd.css'
 import CreatCompanyAlert from './../company/CreatCompanyAlert'
 import InviteGroupPeople from './InviteGroupPeople'
 import * as common from '../../util/common.js';
+import GroupMemberList from './../company/GroupMemberList'
 
 class GroupList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companyID: common.getCookie("companyId"),
+            companyID: common.getCookie("companyId"),   // common.getCookie("companyId")
             groupList: [],
-            userId: common.getCookie("userId"),
-            userName: common.getCookie("userName")
+            userId: common.getCookie("userId"), // common.getCookie("userId")
+            userName: common.getCookie("userName"), // common.getCookie("userName")
+            currentGroupID:0
+
         };
     }
 
@@ -115,10 +118,32 @@ class GroupList extends Component {
     }
     lookGroupListBtnClick(id,event){
         console.log(id);
+        this.setState({
+            currentGroupID:id
+        })
     }
 
+groupList(){
+    return(
+        <div>
+            <GroupMemberList groupid ={this.state.currentGroupID}/>
+        </div>
+    )
+}
+render()
+{
+    if(this.state.currentGroupID>0)
+    {
+       return this.groupList();
+    }
+    else
+    {
+       return this.renderGroup();
+    }
 
-    render() {
+}
+
+    renderGroup() {
         const columns = [{
             title: '组名称',
             dataIndex: 'groupName',
