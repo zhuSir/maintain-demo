@@ -1,8 +1,7 @@
 import React, {Component } from 'react';
 import { Menu, Icon } from 'antd';
 import 'antd/dist/antd.css';
-import {BrowserRouter as Router,Route,Link} from 'react-router-dom';
-const SubMenu = Menu.SubMenu;
+import {Link} from 'react-router-dom';
 
 class SysMenu extends Component{
 
@@ -49,12 +48,49 @@ class SysMenu extends Component{
                         <span>报修管理</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="维修管理">
+                    <Link to="/weibao">
+                        <Icon type="exception" />
+                        <span>维修管理</span>
+                    </Link>
+                </Menu.Item>
                 <Menu.Item key="设备管理">
                     <Link to="/equip">
                         <Icon type="tool" />
                         <span>设备管理</span>
                     </Link>
                 </Menu.Item>
+                <Menu.Item key="权限管理">
+                    <Link to="/groupauthority">
+                        <Icon type="tool" />
+                        <span>权限管理</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="组公司管理">
+                    <Link to="/company">
+                        <Icon type="tool" />
+                        <span>组公司</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="登录">
+                    <Link to="/login">
+                        <Icon type="tool" />
+                        <span>登录</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="组">
+                    <Link to="/group">
+                        <Icon type="tool" />
+                        <span>组</span>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="组成员">
+                    <Link to="/GroupMemberList">
+                        <Icon type="tool" />
+                        <span>组成员</span>
+                    </Link>
+                </Menu.Item>
+
             </Menu>
         );
     }

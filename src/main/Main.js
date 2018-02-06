@@ -5,7 +5,7 @@ import './Main.css'
 import SysMenu from './SysMenu';
 import SysContent from "./SysContent";
 
-import {BrowserRouter as Router,Route,Link} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 const { Header, Footer, Sider } = Layout;
 

@@ -17,6 +17,9 @@ import 'antd/dist/antd.css';
 import React, {Component} from 'react';
 import * as net from '../../util/common';
 import * as areaHelper from '../../util/area';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 const FormItem = Form.Item;
 
@@ -26,6 +29,29 @@ class Equip extends Component {
         super();
         this.state = {
             dataSource: [],
+            modifyIndex: null,
+            fields: {
+                id: {
+                    value: 0
+                },
+                equipName: {
+                    value: '',
+                }, equipModel: {
+                    value: '',
+                }, equipFirm: {
+                    value: '',
+                }, equipDetail: {
+                    value: '',
+                }, address: {
+                    value: '',
+                }, city: {
+                    value: ['福建省', '厦门市', '思明区'],
+                }, putUseTime: {
+                    value: moment(),
+                }, guaranteePeriod: {
+                    value: moment(),
+                }
+            },
             detailVisible: false,
             columns: [{
                 title: '设备名称',
@@ -61,29 +87,71 @@ class Equip extends Component {
                 key: 'action',
                 render: (text, record, index) => (
                     <span>
-                        <Button type="primary" onClick={this.showModal}>编辑</Button>
+                        <Button type="primary" onClick={this.showModal.bind(this, record, index)}>编辑</Button>
                         <Divider type="vertical"/>
                         <Popconfirm title="删除不可恢复，你确定要删除吗?" okText="确认" cancelText="取消"
                                     onConfirm={this.doDelete.bind(this, record, index)}>
                             <Button type="primary">删除</Button>
                         </Popconfirm>
-                        <Divider type="vertical"/>
-                        <Button type="primary" onClick={this.showModal}>查看详情</Button>
                     </span>
                 ),
             }]
         }
     }
 
-    showModal = () => {
+    showModal = (record, index) => {
+        let that = this;
+        if (typeof(index) !== "undefined") {
+            net.axiosPost('getEquipById', 'equipController', record.id, net.guid()).then(
+                response => {
+                    if (response.data.result === 'true') {
+                        let record = response.data.data;
+                        let fields = that.state.fields;
+                        fields.id = {value: record.id};
+                        fields.address = {value: record.address};
+                        fields.equipDetail = {value: record.equipDetail};
+                        fields.equipFirm = {value: record.equipFirm};
+                        fields.equipModel = {value: record.equipModel};
+                        fields.equipName = {value: record.equipName};
+                        fields.guaranteePeriod = {value: moment(record.guaranteePeriod)};
+                        fields.putUseTime = {value: moment(record.putUseTime)};
+                        fields.city = {value: new Array(record.province, record.city, record.area)};
+                        that.setState({
+                            fields: {...that.state.fields, ...fields},
+                            modifyIndex: index
+                        })
+                    } else {
+                        message.error(response.data.reason);
+                    }
+                }
+            ).catch(
+                error => {
+                    net.httpError(error);
+                }
+            );
+        } else {
+            let fields = that.state.fields;
+            fields.id = {value: 0};
+            fields.address = {value: ''};
+            fields.equipDetail = {value: ''};
+            fields.equipFirm = {value: ''};
+            fields.equipModel = {value: ''};
+            fields.equipName = {value: ''};
+            fields.guaranteePeriod = {value: moment()};
+            fields.putUseTime = {value: moment()};
+            fields.city = {value: new Array('福建省', '厦门市', '思明区')};
+            that.setState({
+                fields: {...that.state.fields, ...fields},
+                modifyIndex: null
+            })
+        }
         this.setState({detailVisible: true});
     }
 
     doDelete = (record, index) => {
         net.axiosPost('deleteEquip', 'equipController', record.id, net.guid()).then(
             response => {
-                console.log(response.data.result);
-                if (response.data.result == 'true') {
+                if (response.data.result === 'true') {
                     const dataSource = [...this.state.dataSource];
                     dataSource.splice(index, 1);
                     this.setState({dataSource});
@@ -91,7 +159,11 @@ class Equip extends Component {
                     message.error(response.data.reason);
                 }
             }
-        )
+        ).catch(
+            error => {
+                net.httpError(error);
+            }
+        );
     }
 
     handleCancel = () => {
@@ -108,23 +180,48 @@ class Equip extends Component {
                 if (err) {
                     return
                 }
+                let id = values['id'];
                 let address = values['city'];
                 values['province'] = address[0];
                 values['city'] = address[1];
                 values['area'] = address[2];
-                net.axiosPost('saveEquip', 'equipController', values, net.guid()).then(
-                    response => {
-                        form.resetFields();
-                        let insertEntity = response.data.data;
-                        let source = this.state.dataSource;
-                        source.push(insertEntity);
-                        this.setState({detailVisible: false, dataSource: source});
-                    }
-                ).catch(
-                    error => {
-                        net.httpError(error);
-                    }
-                );
+                if (id === 0) {
+                    delete values['id'];
+                    net.axiosPost('saveEquip', 'equipController', values, net.guid()).then(
+                        response => {
+                            if (response.data.result === 'true') {
+                                form.resetFields();
+                                let insertEntity = response.data.data;
+                                let source = this.state.dataSource;
+                                source.push(insertEntity);
+                                this.setState({detailVisible: false, dataSource: source});
+                            } else {
+                                message.error(response.data.reason);
+                            }
+                        }
+                    ).catch(
+                        error => {
+                            net.httpError(error);
+                        }
+                    );
+                } else {
+                    net.axiosPost('updateEquip', 'equipController', values, net.guid()).then(
+                        response => {
+                            if (response.data.result === 'true') {
+                                form.resetFields();
+                                const dataSource = [...this.state.dataSource];
+                                dataSource.splice(this.state.modifyIndex, 1, response.data.data);
+                                this.setState({detailVisible: false, dataSource});
+                            } else {
+                                message.error(response.data.reason);
+                            }
+                        }
+                    ).catch(
+                        error => {
+                            net.httpError(error);
+                        }
+                    )
+                }
             }
         )
     }
@@ -147,9 +244,12 @@ class Equip extends Component {
     render() {
         return (
             <div>
-                <Button type="primary" onClick={this.showModal}>新增</Button>
+                <div className="table-operations" style={{marginBottom: 16}}>
+                    <Button type="primary" onClick={this.showModal}>新增</Button>
+                </div>
                 <Table rowKey='id' dataSource={this.state.dataSource} columns={this.state.columns}/>
-                <EquipCreateForm ref={this.saveFormRef} visible={this.state.detailVisible} onCancel={this.handleCancel}
+                <EquipCreateForm {...this.state.fields} ref={this.saveFormRef}
+                                 visible={this.state.detailVisible} onCancel={this.handleCancel}
                                  onCreate={this.handleCreate}/>
             </div>
         )
@@ -173,13 +273,51 @@ const areaData = areaHelper.addressData();
  * 弹出层菜单
  * @type {React.ComponentClass<Omit<P, keyof FormComponentProps>&TOwnProps>}
  */
-const EquipCreateForm = Form.create()(
+const EquipCreateForm = Form.create({
+    mapPropsToFields(props) {
+        return {
+            id: Form.createFormField({
+                ...props.id,
+                value: props.id.value,
+            }),
+            equipName: Form.createFormField({
+                ...props.equipName,
+                value: props.equipName.value,
+            }), equipModel: Form.createFormField({
+                ...props.equipModel,
+                value: props.equipModel.value,
+            }), equipFirm: Form.createFormField({
+                ...props.equipFirm,
+                value: props.equipFirm.value,
+            }), equipDetail: Form.createFormField({
+                ...props.equipDetail,
+                value: props.equipDetail.value,
+            }), city: Form.createFormField({
+                ...props.city,
+                value: props.city.value,
+            }), address: Form.createFormField({
+                ...props.address,
+                value: props.address.value,
+            }), putUseTime: Form.createFormField({
+                ...props.putUseTime,
+                value: props.putUseTime.value,
+            }), guaranteePeriod: Form.createFormField({
+                ...props.guaranteePeriod,
+                value: props.guaranteePeriod.value,
+            })
+        };
+    }
+})(
     (props) => {
         const {visible, onCancel, onCreate, form} = props;
         const {getFieldDecorator} = form;
         return (
-            <Modal visible={visible} title="新增设备" okText="Create" onCancel={onCancel} onOk={onCreate}>
+            <Modal visible={visible} title="新增设备" okText="确认" cancelText="取消" onCancel={onCancel} onOk={onCreate}
+                   mask={true} maskClosable={false} width={600} destroyOnClose={true}>
                 <Form layout="vertical">
+                    <FormItem {...formItemLayout}>
+                        {getFieldDecorator('id')(<Input type="hidden"/>)}
+                    </FormItem>
                     <FormItem {...formItemLayout} label="设备名称">
                         {getFieldDecorator('equipName', {
                             rules: [{required: true, message: '请输入设备名称'}],
@@ -200,7 +338,6 @@ const EquipCreateForm = Form.create()(
                     </FormItem>
                     <FormItem {...formItemLayout} label="设备地址">
                         {getFieldDecorator('city', {
-                            initialValue: ['福建省', '厦门市', '思明区'],
                             rules: [{type: 'array'}],
                         })(<Cascader key='value' options={areaData}/>)}
                     </FormItem>

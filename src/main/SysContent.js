@@ -1,17 +1,18 @@
 import React, {Component } from 'react';
-import { Layout, Breadcrumb,Alert } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 
-import {
-    BrowserRouter as Router,
-    Route,
-    Link
-} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 
 import 'antd/dist/antd.css';
 import Maintain from '../components/maintain/Maintain';
 import Records from '../components/records/Records';
 import Equip from '../components/equip/Equip';
-
+import WeiBao from '../components/maintain/WeiBao';
+import Company from '../components/company/Company';
+import LoginForm from '../components/company/LoginForm'
+import SettingGroup from '../components/groupauthority/SettingGroup';
+import GroupList from '../components/group/GroupList'
+import GroupMemberList from '../components/company/GroupMemberList'
 const { Content } = Layout;
 
 const Home = () => (
@@ -31,7 +32,14 @@ class SysContent extends Component{
                         <Route exact path="/" component={Home}/>
                         <Route path="/records" component={Records}/>
                         <Route path="/maintain" component={Maintain}/>
+                        <Route path="/weibao" component={WeiBao}/>
                         <Route path="/equip" component={Equip}/>
+                        <Route path="/groupauthority" component={SettingGroup}/>
+                        <Route path="/company" component={Company}/>
+                        <Route path="/login" component={LoginForm}/>
+                        <Route path="/group" component={GroupList}/>
+                        <Route path="/GroupMemberList" component={GroupMemberList}/>
+
                     </div>
                 </div>
             </Content>
