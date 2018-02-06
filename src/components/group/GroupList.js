@@ -9,10 +9,10 @@ class GroupList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companyID: common.getCookie("companyId"),   // common.getCookie("companyId")
+            companyID: common.getCookie("companyId"),
             groupList: [],
-            userId: common.getCookie("userId"), // common.getCookie("userId")
-            userName: common.getCookie("userName") // common.getCookie("userName")
+            userId: common.getCookie("userId"),
+            userName: common.getCookie("userName")
         };
     }
 
@@ -75,7 +75,7 @@ class GroupList extends Component {
                 response => {
                     const res = response.data.data;
                     if (res.code == 0) {
-                        message.success(res.infxo)
+                        message.success(res.info)
                     } else if (res.code == 1) {
                         message.warning(res.info)
                     }
@@ -115,7 +115,6 @@ class GroupList extends Component {
     }
     lookGroupListBtnClick(id,event){
         console.log(id);
-
     }
 
 

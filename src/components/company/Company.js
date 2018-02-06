@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 import CreatCompanyAlert from './CreatCompanyAlert'
 import {message} from 'antd';
 import 'antd/dist/antd.css';
-
 import * as common from '../../util/common.js';
 
 class Company extends  Component{
@@ -44,6 +43,11 @@ class Company extends  Component{
             companyLeaderPhone:"188XXXXXXXX",
             companyAddress:"湖滨南路立信广场28楼"
         }
+
+        message.config({
+            top: 10,
+            duration:3,
+        });
     }
     componentDidMount(){
         if(this.state.isHaveCom)
@@ -58,7 +62,6 @@ class Company extends  Component{
                     common.setCookie('companyName',response.data.data.groupName, 60)
                     common.setCookie('companyLeader',response.data.data.createName, 60)
                     common.setCookie('createBy', response.data.data.createBy, 60);
-
                     this.setState({
                         isHaveCom:true,
                         companyName:response.data.data.groupName,
