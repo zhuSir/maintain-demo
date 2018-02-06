@@ -24,10 +24,15 @@ class SysMenu extends Component{
                         <span>统计</span>
                     </Link>
                 </Menu.Item>
-
                 <SubMenu key="sub1" title={<span>
                     <Icon type="android" />
                     <span>公司管理</span></span>}>
+                    <Menu.Item key="公司信息">
+                        <Link to="/company">
+                            <Icon type="user" />
+                            <span>公司</span>
+                        </Link>
+                    </Menu.Item>
                     <Menu.Item key="公司成员">
                         <Link to="/maintain">
                             <Icon type="user" />
@@ -35,13 +40,13 @@ class SysMenu extends Component{
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="部门列表">
-                        <Link to="/maintain">
+                        <Link to="/group">
                             <Icon type="team" />
                             <span>部门列表</span>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="权限管理">
-                        <Link to="/maintain">
+                        <Link to="/groupauthority">
                             <Icon type="user" />
                             <span>权限管理</span>
                         </Link>
@@ -55,7 +60,7 @@ class SysMenu extends Component{
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="报修管理">
-                    <Link to="/maintain">
+                    <Link to="/groupauthority">
                         <Icon type="exception" />
                         <span>报修管理</span>
                     </Link>
@@ -72,30 +77,7 @@ class SysMenu extends Component{
                         <span>设备管理</span>
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="权限管理">
-                    <Link to="/groupauthority">
-                        <Icon type="tool" />
-                        <span>权限管理</span>
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="组公司管理">
-                    <Link to="/company">
-                        <Icon type="tool" />
-                        <span>组公司</span>
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="登录">
-                    <Link to="/login">
-                        <Icon type="tool" />
-                        <span>登录</span>
-                    </Link>
-                </Menu.Item>
-                <Menu.Item key="组">
-                    <Link to="/group">
-                        <Icon type="tool" />
-                        <span>组</span>
-                    </Link>
-                </Menu.Item>
+
                 <Menu.Item key="组成员">
                     <Link to="/GroupMemberList">
                         <Icon type="tool" />
