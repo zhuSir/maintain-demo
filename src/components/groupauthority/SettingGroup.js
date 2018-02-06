@@ -1,7 +1,5 @@
 import React,{Component} from 'react'
-import { Table, Icon, Divider } from 'antd';
-import { Checkbox, Row, Col } from 'antd';
-import { Button } from 'antd';
+import { Table, Icon, Divider,Button ,Checkbox, Row, Col} from 'antd';
 import * as common from '../../util/common.js';
 // import * as net from '../../util/common';
 

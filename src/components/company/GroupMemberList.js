@@ -2,7 +2,7 @@
  * Created by zhangzhifu on 2018/2/4.
  */
 import React, {Component} from 'react';
-import {Table, message} from 'antd';
+import {Table, message,Button } from 'antd';
 import 'antd/dist/antd.css'
 import * as common from '../../util/common.js';
 
@@ -16,14 +16,13 @@ class GroupMemberList extends Component {
         }
     }
 
-
-    userInfo(id, event) {
+    lookDetail(id, event) {
         alert(id)
     }
 
     componentDidMount() {
         let data = {
-            groupId:this.state.groupId
+            groupId: this.state.groupId
         };
 
         common.axiosPost("listGroupMember", "groupControllrer", data, common.guid()).then(
@@ -45,7 +44,6 @@ class GroupMemberList extends Component {
             title: '姓名',
             dataIndex: 'createName',
             key: 'createName',
-            render: (text, record) => (<a onClick={this.userInfo.bind(this, record.id)}>{text}</a>),
         }, {
             title: '手机号',
             dataIndex: 'mobilephone',
@@ -54,12 +52,16 @@ class GroupMemberList extends Component {
             title: '部门',
             dataIndex: 'groupName',
             key: 'groupName',
+        }, {
+            title: '操作',
+            key: 'action',
+            render: (text, record) => (
+                <Button type="primary" onClick={this.lookDetail.bind(this, record.id)}>查看详情</Button>
+            ),
         }];
 
         return (
-            <div className="container">
-                <Table rowKey="id" columns={columns} dataSource={userList}/>
-            </div>
+            <Table rowKey="id" columns={columns} dataSource={userList}/>
         )
     }
 }

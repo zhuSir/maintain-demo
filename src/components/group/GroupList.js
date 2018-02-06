@@ -135,7 +135,7 @@ class GroupList extends Component {
         return (
             <div>
                 <CreatCompanyAlert handleCreatgroup={this.handleCreatCompanyBackfunction.bind(this)} type={2}/>
-                <Table
+                <Table style={{ marginTop: 16 }}
                     rowKey="id"
                     className="ml-5 mr-5 mt-3"
                     columns={columns}

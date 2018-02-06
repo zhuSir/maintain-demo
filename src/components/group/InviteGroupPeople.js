@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-
-
-import {Modal, Button} from 'antd';
-import {Input} from 'antd';
+import {Modal, Button, Input} from 'antd';
 
 export default  class InviteGroupPeople extends Component {
     //  type 1，邀请，2删除
@@ -38,7 +35,7 @@ export default  class InviteGroupPeople extends Component {
             visible: false,
         });
         if (this.state.type == 1) {
-            this.props.handleInviteRecord(this.props.groupItem.id,this.state.phone);
+            this.props.handleInviteRecord(this.props.groupItem.id, this.state.phone);
         }
         else {
             this.props.handleDeleteRecord(this.props.groupItem.id);
@@ -70,9 +67,9 @@ export default  class InviteGroupPeople extends Component {
 
         return (
             <div className="row">
-                <Button onClick={this.showModal}>邀请</Button>
-                <Button onClick={this.showdeleteModal} className="ml-3">删除组</Button>
-                <Button className="ml-3">查看组成员{this.props.groupItem.id}</Button>
+                <Button type="primary" style={{ marginRight: 16 }} onClick={this.showModal}>邀请</Button>
+                <Button type="primary" style={{ marginRight: 16 }} onClick={this.showdeleteModal}>删除组</Button>
+                <Button type="primary" >查看组成员{this.props.groupItem.id}</Button>
 
                 <Modal
                     title={this.state.creatBtnName}
