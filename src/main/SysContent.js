@@ -7,6 +7,7 @@ import 'antd/dist/antd.css';
 import Maintain from '../components/maintain/Maintain';
 import Records from '../components/records/Records';
 import Equip from '../components/equip/Equip';
+import WeiBao from '../components/maintain/WeiBao';
 
 const { Content } = Layout;
 
@@ -27,6 +28,7 @@ class SysContent extends Component{
                         <Route exact path="/" component={Home}/>
                         <Route path="/records" component={Records}/>
                         <Route path="/maintain" component={Maintain}/>
+                        <Route path="/weibao" component={WeiBao}/>
                         <Route path="/equip" component={Equip}/>
                     </div>
                 </div>
