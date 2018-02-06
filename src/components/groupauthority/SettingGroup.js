@@ -1,31 +1,27 @@
-import React,{Component} from 'react'
-import { Table, Icon, Divider } from 'antd';
-import { Checkbox, Row, Col } from 'antd';
-import { Button } from 'antd';
+import React, {Component} from 'react'
+import {Table, Icon, Divider, Button, Checkbox, Row, Col} from 'antd';
 import * as common from '../../util/common.js';
-// import * as net from '../../util/common';
 
 
 export  default class SettingGroup extends Component {
 
-    constructor(event){
+    constructor(event) {
         super(event);
         let isEdit = common.getCookie('createBy');
-        if (isEdit==common.getCookie('createBy'))
-        {
-            isEdit=true;
+        if (isEdit == common.getCookie('createBy')) {
+            isEdit = true;
         }
-        else
-        {
-            isEdit=false;
+        else {
+            isEdit = false;
         }
-        this.state={
-            groupList:[],
-            isEdit:isEdit,
-            itemList:[],
-            editResult:[]
+        this.state = {
+            groupList: [],
+            isEdit: isEdit,
+            itemList: [],
+            editResult: []
         };
     }
+
 // { id:1,groupName:'技术研发部',item:[],rowKey:"1"},
 // { id:2,groupName:'运维部',item:[],rowKey:"1"},
 // { id:3,groupName:'设计部',item:[1,2,3],rowKey:"1"},
@@ -45,7 +41,7 @@ export  default class SettingGroup extends Component {
 
         common.axiosPost("getGroupAuthorityList", "authorityController", data, common.guid()).then(
             response => {
-                console.log(response.data.data+"eeeee");
+                console.log(response.data.data + "eeeee");
 
                 this.setState({
                     groupList: response.data.data
@@ -58,7 +54,7 @@ export  default class SettingGroup extends Component {
         )
         common.axiosPost("getAllList", "authorityController", data, common.guid()).then(
             response => {
-                console.log(response.data.data+"eeeee");
+                console.log(response.data.data + "eeeee");
                 this.setState({
                     itemList: response.data.data
                 })
@@ -73,17 +69,17 @@ export  default class SettingGroup extends Component {
     }
 
 
-    onRowClick(){
+    onRowClick() {
         console.log("dddddddd");
 
     }
 
-    render(){
+    render() {
 
-        function onChange(groupId,checkedValues,) {
+        function onChange(groupId, checkedValues,) {
 
             const data = {
-                groupID:groupId.id,
+                groupID: groupId.id,
                 auID: checkedValues
             };
             common.axiosPost("setGroupAu", "authorityController", data, common.guid()).then(
@@ -96,7 +92,7 @@ export  default class SettingGroup extends Component {
                     console.log(error)
                 }
             )
-            console.log(groupId.authorityArr,checkedValues);
+            console.log(groupId.authorityArr, checkedValues);
             // console.log('checked = ', checkedValues+",组ID="+groupId);
         }
 
@@ -104,30 +100,25 @@ export  default class SettingGroup extends Component {
             title: '组名称',
             dataIndex: 'groupName',
             key: 'groupName',
-        },{
+        }, {
             title: '设置权限',
             key: 'action',
             render: (text, record) => (
 
-
-                <Checkbox.Group style={{ width: '60%' }} onChange={onChange.bind(this,record)} defaultValue={record.authorityArr}>
+                <Checkbox.Group style={{width: '60%'}} onChange={onChange.bind(this, record)}
+                                defaultValue={record.authorityArr}>
                     <Row>
-                        {this.state.itemList.map((item) => (<Col span={8}><Checkbox value={item.id}   defaultChecked={true}>{item.name}</Checkbox></Col>
+                        {this.state.itemList.map((item) => (
+                            <Col span={8}><Checkbox value={item.id} defaultChecked={true}>{item.name}</Checkbox></Col>
                         ))}
                     </Row>
                 </Checkbox.Group>
             ),
         }]
 
-        return(
-            <div>
-                <Table
-                    // className="ml-5 mr-5 mt-3"
-                    columns={columns}
-                    dataSource={this.state.groupList}
-                    // onRowClick = {this.onRowClick}
-                />
-            </div>
+        return (
+
+            <Table rowKey="id" columns={columns} dataSource={this.state.groupList}/>
         )
     }
 }

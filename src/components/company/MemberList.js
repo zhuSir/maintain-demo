@@ -13,7 +13,7 @@ class MemberList extends Component {
     constructor() {
         super();
         this.state = {
-            companyID: 41,//common.getCookie("companyId")
+            companyID: common.getCookie("companyId"),
             userList: []
         }
     }
@@ -55,6 +55,7 @@ class MemberList extends Component {
 
         common.axiosPost("listCompanyMember", "groupControllrer", data, common.guid()).then(
             response => {
+
                 this.setState({
                     userList: response.data.data.data
                 })
