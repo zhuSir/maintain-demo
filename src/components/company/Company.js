@@ -26,13 +26,11 @@ class Company extends  Component{
                 iaHaveCom=false;
                 message.warning('请先创建公司！')
             }
-
         }
         else
         {
             iaHaveCom=false;
             message.warning('请先登录！')
-
         }
 
         this.state = {
