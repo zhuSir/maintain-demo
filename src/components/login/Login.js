@@ -207,7 +207,6 @@ class Login extends Component {
                     </Form>
                 </Row>
             </div>
-
         )
     }
 
