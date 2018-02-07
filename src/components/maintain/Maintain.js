@@ -27,13 +27,17 @@ class Maintain extends Component {
                 dataIndex: 'projectName',
                 key: 'projectName'
             }, {
-                title: '公司名称',
-                dataIndex: 'companyName',
-                key: 'companyName'
-            }, {
                 title: '报障内容',
                 dataIndex: 'remarkReason',
                 key: 'remarkReason'
+            },{
+                title: '设备名称',
+                dataIndex: 'equipName',
+                key: 'equipName'
+            },{
+                title: '报障人名称',
+                dataIndex: 'username',
+                key: 'username'
             },{
                 title: '报障类型',
                 dataIndex: 'faultType',
@@ -43,14 +47,6 @@ class Maintain extends Component {
                 dataIndex: 'createtime',
                 key: 'createtime',
                 render:(text,record)=> (moment(record.createtime).format("YYYY-MM-DD HH:mm:ss"))
-            },{
-                title: '设备名称',
-                dataIndex: 'equipName',
-                key: 'equipName'
-            },{
-                title: '报障人名称',
-                dataIndex: 'username',
-                key: 'username'
             }],
             projectId:0,
             equipId:0,
