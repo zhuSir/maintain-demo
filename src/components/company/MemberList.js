@@ -1,7 +1,6 @@
 /**
  * Created by zhangzhifu on 2018/2/2.
  */
-
 import React, {Component} from 'react';
 import {Table, Button, message} from 'antd';
 import 'antd/dist/antd.css'
@@ -55,7 +54,6 @@ class MemberList extends Component {
 
         common.axiosPost("listCompanyMember", "groupControllrer", data, common.guid()).then(
             response => {
-
                 this.setState({
                     userList: response.data.data.data
                 })

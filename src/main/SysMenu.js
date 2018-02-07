@@ -60,7 +60,7 @@ class SysMenu extends Component{
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="报修管理">
-                    <Link to="/groupauthority">
+                    <Link to="/maintain">
                         <Icon type="exception" />
                         <span>报修管理</span>
                     </Link>
