@@ -65,9 +65,9 @@ class SiderDemo extends Component {
                 <Menu.Item>
                     <a rel="noopener noreferrer" onClick={this.handleLogout}><Icon type="logout"/>注销</a>
                 </Menu.Item>
-                <Menu.Item>
-                    <a target="_blank" rel="noopener noreferrer" href="#"><Icon type="switcher"/>切换账号</a>
-                </Menu.Item>
+                {/*<Menu.Item>*/}
+                    {/*<a target="_blank" rel="noopener noreferrer" href="#"><Icon type="switcher"/>切换账号</a>*/}
+                {/*</Menu.Item>*/}
             </Menu>
         );
 
