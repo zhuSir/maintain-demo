@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
-import { Modal, Button,message,Input } from 'antd';
+import { Modal, Button,message } from 'antd';
 import 'antd/dist/antd.css';
+import { Input } from 'antd';
 import * as common from '../../util/common.js';
 
 
@@ -11,7 +12,7 @@ export default  class CreatCompanyAlert extends Component {
         super(props);
         let btnName = "创建";
         if (this.props.type == 1) {
-            btnName = "创建公司";
+            btnName = "创建组";
         }
         else if (this.props.type == 2) {
             btnName = "创建分组";

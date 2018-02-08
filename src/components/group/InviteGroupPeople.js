@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import {Modal, Button, Input} from 'antd';
+
+
+import {Modal, Button} from 'antd';
+import {Input} from 'antd';
 
 export default  class InviteGroupPeople extends Component {
     //  type 1，邀请，2删除
@@ -74,9 +77,9 @@ export default  class InviteGroupPeople extends Component {
 
         return (
             <div className="row">
-                <Button type="primary" style={{ marginRight: 16 }} onClick={this.showModal}>邀请</Button>
-                <Button type="primary" style={{ marginRight: 16 }} onClick={this.showdeleteModal} className="ml-3">删除组</Button>
-                <Button type="primary" style={{ marginRight: 16 }} className="ml-3 mr-3"onClick={this.lookGropListBtnClick.bind(this,this.props.groupItem.id)} >查看组成员</Button>
+                <Button onClick={this.showModal}>邀请</Button>
+                <Button onClick={this.showdeleteModal} className="ml-3">删除组</Button>
+                <Button className="ml-3 mr-3"onClick={this.lookGropListBtnClick.bind(this,this.props.groupItem.id)} >查看组成员</Button>
 
                 <Modal
                     title={this.state.creatBtnName}
