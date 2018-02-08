@@ -14,6 +14,7 @@ import MemberList from '../components/company/MemberList'
 import GroupMemberList from "../components/company/GroupMemberList"
 import Projects from "../components/project/Projects"
 import ProjectDetail from "../components/project/ProjectDetail"
+import ProjectCreate from "../components/project/ProjectCreate"
 const { Content } = Layout;
 
 const Home = () => (
@@ -42,6 +43,7 @@ class SysContent extends Component{
                         <Route path="/groupList" component={GroupMemberList}/>
                         <Route path="/Projects" component={Projects}/>
                         <Route path="/ProjectDetail" component={ProjectDetail}/>
+                        <Route path="/ProjectCreate" component={ProjectCreate}/>
 
 
                     </div>
