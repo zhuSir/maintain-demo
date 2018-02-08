@@ -167,7 +167,6 @@ render()
                         handleDeleteRecord={this.removeGroup.bind(this)}
                         handleInviteRecord={this.inviteGroupMember.bind(this,record.groupName)}
                         lookGroupHandle={this.lookGroupListBtnClick.bind(this)}
-
                     />
                 ),
             }
