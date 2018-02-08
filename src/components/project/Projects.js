@@ -20,8 +20,8 @@ export default class Projects extends Component {
         RecordsAPI.getProjects(data).then(
             response => {
                 console.log(response);
-                // if (response.code == 1)
-                this.setState({projects: response.data});
+                if (response.code == 1)
+                    this.setState({projects: response.data});
 
             },
             error => console.log(error));
@@ -37,28 +37,29 @@ export default class Projects extends Component {
         this.props.handleAlertHidden();
     }
 
-    handleProjectEditClick(project){
+    handleProjectEditClick(project) {
         console.log("项目编辑");
+        console.log(project);
         // this.props.handleProjectEditClick(project);
-        let data={
-            isCreate:false,
-            project:project
+        let data = {
+            isCreate: false,
+            project: project
         }
         let path = {
-            pathname:"/ProjectCreate",
-            state:data
+            pathname: "/ProjectCreate",
+            state: data
         }
         this.props.history.push(path);
     }
 
     handleProjectDetailClick(project) {
         // this.props.handleProjectDetailOnClick(project);
-        let data={
-            project:project
+        let data = {
+            project: project
         }
         let path = {
-            pathname:"/ProjectDetail",
-            state:data
+            pathname: "/ProjectDetail",
+            state: data
         }
         this.props.history.push(path);
     }
@@ -70,12 +71,12 @@ export default class Projects extends Component {
     handleCreateProjectClick() {
         console.log("创建项目点击");
         // this.props.handleCreateProjectClick();
-        let data={
-            isCreate:false
+        let data = {
+            isCreate: true
         }
         let path = {
-            pathname:"/ProjectCreate",
-            state:data
+            pathname: "/ProjectCreate",
+            state: data
         }
         this.props.history.push(path);
     }
@@ -102,7 +103,7 @@ export default class Projects extends Component {
         return (
             <div>
                 {/*<div className="bg-info pl-4 pr-4 pb-1">*/}
-                    {/*<h6>我的项目</h6>*/}
+                {/*<h6>我的项目</h6>*/}
                 {/*</div>*/}
                 <div className="ml-4 mr-4 mb-4 mt-4">
                     <div className="mr-4 mt-4 pr-4 pull-right">

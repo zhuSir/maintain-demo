@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Popconfirm, message,Table, Icon, Divider} from 'react';
 
 class Project extends Component {
 
@@ -7,20 +7,20 @@ class Project extends Component {
 
     }
 
-    handleDeleteClick(){
+    handleDeleteClick() {
         let alertContent = {
-            tittle:"警告",
-            content:"确定要删除 \""+this.props.project.name+ "\" 这个项目吗？",
-            data:this.props.project
+            tittle: "警告",
+            content: "确定要删除 \"" + this.props.project.name + "\" 这个项目吗？",
+            data: this.props.project
         }
         this.props.handleDeleteClick(alertContent);
     }
 
-    handleDetailClick(){
+    handleDetailClick() {
         this.props.handleProjectDetailClick(this.props.project);
     }
 
-    handleEditClick(){
+    handleEditClick() {
         console.log("编辑");
         this.props.handleProjectEditClick(this.props.project);
     }
@@ -64,7 +64,8 @@ class Project extends Component {
                     </h6>
                 </td>
                 <td className="table-condensed">
-                    <button className="btn btn-primary mr-1 ml-1" onClick={this.handleDetailClick.bind(this)}>详情</button>
+                    <button className="btn btn-primary mr-1 ml-1" onClick={this.handleDetailClick.bind(this)}>详情
+                    </button>
                     <button className="btn btn-info mr-1 " onClick={this.handleEditClick.bind(this)}>编辑</button>
                     <button className="btn btn-danger mr-1" onClick={this.handleDeleteClick.bind(this)}>删除</button>
                 </td>
