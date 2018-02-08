@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Project from './Project';
+import {Modal, message, Table, Divider, Button} from 'antd';
 import * as RecordsAPI from '../../util/RecordsAPI'
 import * as common from '../../util/common.js';
 
@@ -25,16 +25,6 @@ export default class Projects extends Component {
 
             },
             error => console.log(error));
-    }
-
-    handleDelete(project) {
-        console.log("projects-handleDelete");
-        const projectIndex = this.state.projects.indexOf(project);
-        const newProjects = this.state.projects.filter((item, index) => index !== projectIndex);
-        this.setState({
-            projects: newProjects
-        });
-        this.props.handleAlertHidden();
     }
 
     handleProjectEditClick(project) {
@@ -64,8 +54,36 @@ export default class Projects extends Component {
         this.props.history.push(path);
     }
 
-    handleDeleteClick(alertContent) {
-        // this.props.handleAlertShow(alertContent);
+    handleDeleteClick(project) {
+        const confirm = Modal.confirm;
+        confirm({
+            title: '警告',
+            content: '确定要删除 \"'+project.name+' \"这个项目吗',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk() {
+                let postDdatas = {
+                    uId: common.getCookie("userId"),
+                    pId: project.id
+                }
+                RecordsAPI.delectProjects(postDdatas).then(
+                    response => {
+                        console.log(response);
+
+                    },
+                    error => {
+                        console.log(error);
+                        this.setState({
+                            ...this.state,
+                            alertShow:false
+                        });
+                    });
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
 
     handleCreateProjectClick() {
@@ -82,49 +100,64 @@ export default class Projects extends Component {
     }
 
     render() {
-        const {visible, confirmLoading, ModalText} = this.state;
-        let projects;
-        if (this.state.projects.length > 0) {
-            console.log("有项目");
-            projects = (
-                this.state.projects.map(project =>
-                    <Project handleProjectDetailClick={this.handleProjectDetailClick.bind(this)}
-                             handleDeleteClick={this.handleDeleteClick.bind(this)}
-                             handleProjectEditClick={this.handleProjectEditClick.bind(this)}
-                             key={project.id} project={project}/>)
-            );
-        } else {
-            console.log("无项目");
-            <div>
-                暂无项目
-            </div>
-        }
+        const columns = [{
+            title: '项目名称',
+            dataIndex: 'name',
+            key: 'name',
+        }, {
+            title: '项目原计划时间',
+            dataIndex: 'date',
+            key: 'date',
+        }, {
+            title: '项目状态',
+            dataIndex: 'state',
+            key: 'state',
+        }, {
+            title: '操作',
+            key: 'action',
+            render: (text, project) => (
+                <span>
+                     <Button type="primary" onClick={()=>this.handleProjectDetailClick(project)}>详情</Button>
+                     <Divider type="vertical"/>
+                     <Button  type="primary" onClick={()=>this.handleProjectEditClick(project)}>编辑</Button>
+                     <Divider type="vertical"/>
+                     <Button type="primary" onClick={()=>this.handleDeleteClick(project)}>删除</Button>
+                 </span>
+            ),
+        }];
+
+        let data = this.state.projects;
+
+        data.map(project => {
+            let projectState;
+            switch (project.projectState) {
+                case 0:
+                    projectState = "未开工";
+                    break;
+                case 1:
+                    projectState = "已开工";
+                    break;
+                case 2:
+                    projectState = "已完工";
+                    break;
+                case 3:
+                    projectState = "已停工";
+                    break;
+            }
+
+            let date = new Date(project.planStartDate);
+            const stareDate = date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
+            date = new Date(project.planEndDate);
+            const endDate = date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
+            project["date"] = stareDate + "-" + endDate;
+            project["state"] = projectState;
+        });
 
         return (
             <div>
-                {/*<div className="bg-info pl-4 pr-4 pb-1">*/}
-                {/*<h6>我的项目</h6>*/}
-                {/*</div>*/}
-                <div className="ml-4 mr-4 mb-4 mt-4">
-                    <div className="mr-4 mt-4 pr-4 pull-right">
-                        <button className="btn pull-right btn-danger mr-4"
-                                onClick={this.handleCreateProjectClick.bind(this)}>创建项目
-                        </button>
-                    </div>
-                    <table className="table mr-4 mt-4 pr-4">
-                        <thead>
-                        <tr className="bg-info table-condensed ">
-                            <th><h5>项目名称</h5></th>
-                            <th><h5>项目原计划时间</h5></th>
-                            <th><h5>项目状态</h5></th>
-                            <th><h5>操作</h5></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {projects}
-                        </tbody>
-                    </table>
-                </div>
+                <Button type="primary" style={{margin: '0px 0px 20px 0px'}}
+                        onClick ={this.handleCreateProjectClick.bind(this)} >创建项目</Button>
+                <Table columns={columns} dataSource={data}/>
             </div>
         );
     }

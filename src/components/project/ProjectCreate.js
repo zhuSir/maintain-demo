@@ -69,9 +69,9 @@ class ProjectCreate extends Component {
         )
 
         let projectCompanyData = {
-            uId: common.getCookie("userId"),
-            pId: common.getCookie("companyId")
+            uId: common.getCookie("userId")
         }
+        console.log(projectCompanyData);
         RecordsAPI.getProjectsCompany(projectCompanyData).then(
             response => {
                 console.log(response);
