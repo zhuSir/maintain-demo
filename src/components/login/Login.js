@@ -60,6 +60,17 @@ class Login extends Component {
                         net.setCookie('companyName', res.data.companyName, 60);
                         net.setCookie('groupId', res.data.groupid, 60);
                         net.setCookie('groupName', res.data.groupName, 60);
+
+                        if (res.data.companyid>0&& res.data.groupid==0)
+                        {
+                          console.log("是公司负责人");
+                            net.setCookie('isConpanyLeader',1, 60);
+                        }
+                        else
+                        {
+                            console.log("不是公司负责人");
+                            net.setCookie('isConpanyLeader',0, 60);
+                        }
                         this.props.jumpToMain(0);//跳到主页
                     }
                 ).catch(

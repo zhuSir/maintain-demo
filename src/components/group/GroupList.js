@@ -121,19 +121,15 @@ class GroupList extends Component {
         }
         return true;
     }
+
     lookGroupListBtnClick(id,event){
         console.log(id);
-
         var path = {
             pathname:'/groupList',
             state:id,
         }
-
         this.props.history.push(path);
 
-        // this.setState({
-        //     currentGroupID:id
-        // })
     }
 
 groupList(){

@@ -36,7 +36,6 @@ class SysContent extends Component{
                         <Route path="/groupauthority" component={SettingGroup}/>
                         <Route path="/company" component={Company}/>
                         <Route path="/group" component={GroupList}/>
-
                         <Route path="/companyMemberList" component={MemberList}/>
                         <Route path="/groupList" component={GroupMemberList}/>
 

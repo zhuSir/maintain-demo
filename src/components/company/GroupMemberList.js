@@ -23,13 +23,11 @@ class GroupMemberList extends Component {
 
     componentDidMount() {
         var dataa= this.props.location.state;
-        // console.log(dataa.id+""+"----------");
 
         let data = {
             groupId:dataa
         };
         console.log(dataa);
-
         common.axiosPost("listGroupMember", "groupControllrer", data, common.guid()).then(
             response => {
                 this.setState({
