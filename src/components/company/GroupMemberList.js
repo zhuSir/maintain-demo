@@ -22,12 +22,12 @@ class GroupMemberList extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.groupid)
+        var dataa= this.props.location.state;
 
         let data = {
-            groupId:this.props.groupid
+            groupId:dataa
         };
-
+        console.log(dataa);
         common.axiosPost("listGroupMember", "groupControllrer", data, common.guid()).then(
             response => {
                 this.setState({

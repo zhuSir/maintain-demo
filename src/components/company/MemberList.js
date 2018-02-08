@@ -49,7 +49,7 @@ class MemberList extends Component {
 
     componentDidMount() {
         let data = {
-            companyId:this.state.companyID
+            companyId: this.state.companyID
         };
 
         common.axiosPost("listCompanyMember", "groupControllrer", data, common.guid()).then(
@@ -84,7 +84,11 @@ class MemberList extends Component {
             title: '编辑',
             key: 'action',
             render: (text, record) => (
-                <Button type="primary" onClick={this.handleDele.bind(this, record.id)}>删除</Button>
+                <div>
+                    <Button type="primary" style={{ marginRight: 16 }} onClick={this.handleDele.bind(this, record.id)}>删除</Button>
+                    <Button type="primary" >查看详情</Button>
+                </div>
+
             ),
         }];
 
