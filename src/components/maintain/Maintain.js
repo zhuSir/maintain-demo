@@ -208,30 +208,36 @@ class FaultFormObject extends Component{
                 <FormItem {...formItemLayout} label="选择项目">
                     {getFieldDecorator('projectId')(
                         <div>
-                            <Input placeholder="未选择项目" value={this.state.projectObject.name}/>
-                            <br />
-                            <Button onClick={this.handleAddProject}>选择项目</Button>
-                            <ProjectTables
-                                projectObject={this.selectProject}
-                                projectListVisible={this.state.projectListVisible}
-                                handleProjectOk={this.handleProjectOk}
-                                handleProjectCancel={this.handleProjectCancel}
-                            />
+                            <div style={{ marginBottom: 16 }}>
+                                <Input placeholder="未选择项目" value={this.state.projectObject.name}/>
+                            </div>
+                            <div style={{ marginBottom: 16 }}>
+                                <Button onClick={this.handleAddProject}>选择项目</Button>
+                                <ProjectTables
+                                    projectObject={this.selectProject}
+                                    projectListVisible={this.state.projectListVisible}
+                                    handleProjectOk={this.handleProjectOk}
+                                    handleProjectCancel={this.handleProjectCancel}
+                                />
+                            </div>
                         </div>
                     )}
                 </FormItem>
                 <FormItem {...formItemLayout} label="选择设备">
                     {getFieldDecorator('equipId')(
                         <div>
-                            <Input type="text" placeholder="未选择设备" value={this.state.equipObject.equipName}/>
-                            <br />
-                            <Button onClick={this.handleAddEquips}>选择设备</Button>
-                            <EquipTables
-                                equipObject={this.selectEquip}
-                                equipListVisible={this.state.equipListVisible}
-                                handleEquipOk={this.handleEquipOk}
-                                handleEquipCancel={this.handleEquipCancel}
-                            />
+                            <div style={{ marginBottom: 16 }}>
+                                <Input type="text" placeholder="未选择设备" value={this.state.equipObject.equipName}/>
+                            </div>
+                            <div style={{ marginBottom: 16 }}>
+                                <Button onClick={this.handleAddEquips}>选择设备</Button>
+                                <EquipTables
+                                    equipObject={this.selectEquip}
+                                    equipListVisible={this.state.equipListVisible}
+                                    handleEquipOk={this.handleEquipOk}
+                                    handleEquipCancel={this.handleEquipCancel}
+                                />
+                            </div>
                         </div>
                     )}
                 </FormItem>
