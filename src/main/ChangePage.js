@@ -24,7 +24,7 @@ class ChangePage extends Component {
 
     render() {
         if (this.state.changeType == 0) {
-            return <Main jumpToMain={this.changePage.bind(this)}/>
+            return <Main/>
         } else if (this.state.changeType == 1) {
             return <Login jumpToMain={this.changePage.bind(this)}/>
         }

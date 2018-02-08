@@ -24,17 +24,17 @@ class SysMenu extends Component{
                         <span>统计</span>
                     </Link>
                 </Menu.Item>
-                <SubMenu key="公司管理" title={<span>
+                <SubMenu key="sub1" title={<span>
                     <Icon type="android" />
                     <span>公司管理</span></span>}>
                     <Menu.Item key="公司信息">
                         <Link to="/company">
                             <Icon type="user" />
-                            <span>公司信息</span>
+                            <span>公司</span>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="公司成员">
-                        <Link to="/companyMemberList">
+                        <Link to="/maintain">
                             <Icon type="user" />
                             <span>公司成员</span>
                         </Link>
@@ -42,7 +42,7 @@ class SysMenu extends Component{
                     <Menu.Item key="部门列表">
                         <Link to="/group">
                             <Icon type="team" />
-                            <span>分组列表</span>
+                            <span>部门列表</span>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="权限管理">
@@ -53,14 +53,25 @@ class SysMenu extends Component{
                     </Menu.Item>
                 </SubMenu>
 
-                <Menu.Item key="项目管理">
-                    <Link to="/maintain">
-                        <Icon type="profile" />
-                        <span>项目管理</span>
-                    </Link>
-                </Menu.Item>
+                <SubMenu key="项目管理" title={<span>
+                    <Icon type="appstore"/>
+                    <span>项目管理</span></span>}>
+                    <Menu.Item key="我的项目">
+                        <Link to="/Projects">
+                            <Icon type="appstore-o"/>
+                            <span>我的项目</span>
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key="甲方公司">
+                        <Link to="/Companylist">
+                            <Icon type="table"/>
+                            <span>甲方公司</span>
+                        </Link>
+                    </Menu.Item>
+                </SubMenu>
+
                 <Menu.Item key="报修管理">
-                    <Link to="/maintain">
+                    <Link to="/groupauthority">
                         <Icon type="exception" />
                         <span>报修管理</span>
                     </Link>
