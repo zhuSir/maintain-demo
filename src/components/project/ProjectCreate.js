@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, DatePicker, Select, Radio} from 'antd';
+import {Form, Input, Button, DatePicker, Select, Radio,message} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -12,13 +12,13 @@ class ProjectCreate extends Component {
         super(props);
         var data = this.props.location.state;
         console.log(data);
-        if (data.isCreate !== false) {
-            console.log(props.project);
-            let project = props.project;
-            let date = new Date(props.project.planStartDate);
+        if (data.isCreate === false) {
+            let project = data.project;
+            console.log(project);
+            let date = new Date(project.planStartDate);
             console.log(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
             project.planStartDate = moment(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(), "YYYY-MM-DD");
-            date = new Date(props.project.planEndDate);
+            date = new Date(project.planEndDate);
             console.log(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
             project.planEndDate = moment(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(), "YYYY-MM-DD");
             this.state = {
@@ -46,6 +46,7 @@ class ProjectCreate extends Component {
         let postCompanyData = {
             companyid: common.getCookie("companyId"),
         };
+        console.log(postCompanyData);
         common.axiosPost("listCompanyMember", "groupControllrer", postCompanyData, common.guid()).then(
             response => {
                 console.log(response.data.data.data);
@@ -195,11 +196,12 @@ class ProjectCreate extends Component {
             RecordsAPI.createProject(data).then(
                 response => {
                     if (response.code === 1) {
-                        this.props.handleCreateProject();
+                        message.success('创建成功');
+                        this.props.history.push("/Projects");
                     }
                 },
                 error => {
-                    console.log(error);
+                    message.error('创建失败');
                 });
         }else{
             data = {
@@ -209,11 +211,12 @@ class ProjectCreate extends Component {
             RecordsAPI.updateProject(data).then(
                 response => {
                     if (response.code === 1) {
-                        this.props.handleCreateProject();
+                        message.success('提交成功');
+                        this.props.history.push("/Projects");
                     }
                 },
                 error => {
-                    console.log(error);
+                    message.error('提交失败');
                 });
         }
     }
@@ -223,7 +226,7 @@ class ProjectCreate extends Component {
         if (this.state.isCreate === true) {
             buttonText = "创建";
         } else {
-            buttonText = "更新";
+            buttonText = "提交";
         }
         const FormItem = Form.Item;
         const Option = Select.Option;
