@@ -35,7 +35,8 @@ export const setCookie = (cname, cvalue, minutes) => {
     var d = new Date();
     d.setTime(d.getTime() + (minutes * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    var path = "path=/";
+    document.cookie = cname + "=" + cvalue + "; " + expires + ";" + path;
 }
 
 /**
@@ -105,10 +106,10 @@ export const guid = () => {
     });
 }
 
-export const httpError =(res) =>{
+export const httpError = (res) => {
     var statusCode = res.statusCode;
     var showMsg = '连接错误,请检查网络或联系管理员';
-    switch (statusCode && res.readyState>2) {
+    switch (statusCode && res.readyState > 2) {
         case 400:
             showMsg = '请求失败，请联系管理员';
             break;

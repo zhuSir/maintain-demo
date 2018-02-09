@@ -49,8 +49,14 @@ const CollectionCreateForm = Form.create()(
                             <Input  type="number" maxlength="11"/>
                         )}
                     </FormItem>
+                    <FormItem label="建设单位">
+                        {getFieldDecorator('build')(<Input type="textarea" />)}
+                    </FormItem>
+                    <FormItem label="归属部分">
+                        {getFieldDecorator('deportment')(<Input type="textarea" />)}
+                    </FormItem>
                     <FormItem label="备注">
-                        {getFieldDecorator('description')(<Input type="textarea" />)}
+                        {getFieldDecorator('mark')(<Input type="textarea" />)}
                     </FormItem>
                 </Form>
             </Modal>
@@ -81,6 +87,9 @@ class Create_mask extends Component {
                 name: values.name,
                 managerName: values.managerName,
                 managerPhone:  values.managerPhone,
+                mark: values.build,
+                mark: values.deportment,
+                mark: values.mark,
                 uId: RecordsAPI.uId
             }
             console.log(data)

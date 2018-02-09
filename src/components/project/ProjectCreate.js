@@ -69,9 +69,9 @@ class ProjectCreate extends Component {
         )
 
         let projectCompanyData = {
-            uId: common.getCookie("userId"),
-            pId: common.getCookie("companyId")
+            uId: common.getCookie("userId")
         }
+        console.log(projectCompanyData);
         RecordsAPI.getProjectsCompany(projectCompanyData).then(
             response => {
                 console.log(response);
@@ -102,7 +102,7 @@ class ProjectCreate extends Component {
     handleSelectChange(value, label) {
         if (typeof (value) === "undefined") {
             let project = this.state.project;
-            project.auditPersonId = null;
+            delete project.auditPersonId;
             this.setState({
                 ...this.state.project,
                 project: project
@@ -138,6 +138,13 @@ class ProjectCreate extends Component {
         if (typeof (this.state.project.planEndDate) === "undefined" || this.state.project.planEndDate === null) {
             return false;
         }
+        if (typeof (this.state.project.constructUnitId) === "undefined" || this.state.project.constructUnitId === null) {
+            return false;
+        }
+        if (typeof (this.state.project.owenerUnitId) === "undefined" || this.state.project.owenerUnitId === null) {
+            return false;
+        }
+
         return true;
     }
 
@@ -172,7 +179,8 @@ class ProjectCreate extends Component {
             owenerUnitId: this.state.project.owenerUnitId,
             constructUnitId: this.state.project.constructUnitId,
             depId: RecordsAPI.companyId,
-            managerId: this.state.project.managerId
+            managerId: this.state.project.managerId,
+            projectState:this.state.project.projectState,
         }
         if (typeof (this.state.project.auditPersonId) !== "undefined" && this.state.project.auditPersonId != null) {
             data = {

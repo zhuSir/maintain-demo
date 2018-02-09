@@ -15,7 +15,7 @@ import GroupMemberList from "../components/company/GroupMemberList"
 import Projects from "../components/project/Projects"
 import ProjectDetail from "../components/project/ProjectDetail"
 import ProjectCreate from "../components/project/ProjectCreate"
-import Companylist from "../components/projectcompany/Companylist"
+import Companylist from "../components/projectcompany/Companylistl"
 import Information from "../components/projectcompany/Information"
 const { Content } = Layout;
 
