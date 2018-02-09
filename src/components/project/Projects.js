@@ -69,15 +69,18 @@ export default class Projects extends Component {
                 }
                 RecordsAPI.delectProjects(postDdatas).then(
                     response => {
-                        console.log(response);
+                        message.success("删除成功");
+                        delete project.date;
+                        delete project.state;
+                        const projectIndex = this.state.projects.indexOf(project);
+                        const newProjects = this.state.projects.filter((item, index) => index !== projectIndex);
+                        this.setState({
+                            projects: newProjects
+                        });
 
                     },
                     error => {
-                        console.log(error);
-                        this.setState({
-                            ...this.state,
-                            alertShow:false
-                        });
+                        message.success("删除失败");
                     });
             },
             onCancel() {
@@ -157,7 +160,7 @@ export default class Projects extends Component {
             <div>
                 <Button type="primary" style={{margin: '0px 0px 20px 0px'}}
                         onClick ={this.handleCreateProjectClick.bind(this)} >创建项目</Button>
-                <Table columns={columns} dataSource={data}/>
+                <Table columns={columns} dataSource={data} bordered />
             </div>
         );
     }
