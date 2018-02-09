@@ -1,7 +1,8 @@
 import $ from 'jquery';
 
 // const api = "http://localhost:8080";
-const api = "http://10.100.1.247:8080";
+//const api = "http://10.100.1.247:8080";
+const api = "http://10.100.1.242:8080";
 //const api = "http://10.100.1.217:8080";
 
 export const uId = 1;

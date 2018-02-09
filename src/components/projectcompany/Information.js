@@ -11,10 +11,10 @@ class Information extends Component {
         this.props.handleCompanyformOnClick();
     }
     render(){
-       /* let date = new Date(this.props.company.create_Time);
-        let createDate;
-        date = new Date(this.props.company.create_Time);
-        createDate = date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";*/
+        /* let date = new Date(this.props.company.create_Time);
+         let createDate;
+         date = new Date(this.props.company.create_Time);
+         createDate = date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";*/
         return (
             <div>
                 <h3>公司名称:><small>{this.props.location.state.company.name}</small></h3>
@@ -29,14 +29,14 @@ class Information extends Component {
                         <p className="navbar-text">联系人电话：<span className="forperson" id="forphone">{this.props.location.state.company.managerPhone}</span></p>
                     </li>
                     <li className="list-group-item">
-                        <p className="navbar-text">建设单位： <span className="build" id="build">厦门承建有限公司</span></p>
+                        <p className="navbar-text">建设单位： <span className="build" id="build">{this.props.location.state.company.build}</span></p>
                     </li>
                     <li className="list-group-item">
-                        <p className="navbar-text">归属部门：<span className="deparment" id="deparment">研发部</span></p>
+                        <p className="navbar-text">归属部门：<span className="deparment" id="deparment">{this.props.location.state.company.deportment}</span></p>
                     </li>
                     <li className="list-group-item beish">
                         <div className="reference">
-                            <p className="navbar-text">备注: <div className="discribe" id="discribe">我的描述详情</div></p>
+                            <p className="navbar-text">备注: <div className="discribe" id="discribe">{this.props.location.state.company.mark}</div></p>
                         </div>
                     </li>
                 </List>
