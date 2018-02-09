@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as RecordsAPI from '../../util/RecordsAPI'
 import 'antd/dist/antd.css';
-import { Modal, Table, Button} from 'antd';
+import { Modal} from 'antd';
 
 class Companylist extends Component {
     constructor(props) {
@@ -19,6 +19,7 @@ class Companylist extends Component {
     /*编辑*/
     handleEdit(event) {
         event.preventDefault();
+
         /*数据请求响应，编辑后数据直接实时呈现*/
         let PostData = {
             uId: RecordsAPI.uId,
@@ -89,7 +90,7 @@ class Companylist extends Component {
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
                     >
-                        <p>确定要删除{this.props.companyform.name}公司吗？</p>
+                        <p>确定要删除 <strong>{this.props.companyform.name}</strong>公司吗？</p>
                     </Modal>
                     <button className="btn btn-info" onClick={this.handleInformationOnClick.bind(this)}>详情</button>
                 </td>
