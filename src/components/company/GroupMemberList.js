@@ -18,7 +18,11 @@ class GroupMemberList extends Component {
     }
 
     lookDetail(id, event) {
-        alert(id)
+        var path = {
+            pathname: '/userinfo',
+            state: id,
+        }
+        this.props.history.push(path);
     }
 
     componentDidMount() {
@@ -27,7 +31,7 @@ class GroupMemberList extends Component {
         let data = {
             groupId:dataa
         };
-        console.log(dataa);
+
         common.axiosPost("listGroupMember", "groupControllrer", data, common.guid()).then(
             response => {
                 this.setState({

@@ -14,8 +14,7 @@ class GroupList extends Component {
             groupList: [],
             userId: common.getCookie("userId"), // common.getCookie("userId")
             userName: common.getCookie("userName"), // common.getCookie("userName")
-            currentGroupID:0
-
+            currentGroupID: 0
         };
     }
 
@@ -66,16 +65,16 @@ class GroupList extends Component {
         )
     }
 
-    inviteGroupMember(groupName,groupID, phone) {
-        console.log(groupName,groupID,phone);
+    inviteGroupMember(groupName, groupID, phone) {
+        console.log(groupName, groupID, phone);
 
         if (this.phoneVerify(phone)) {
             const data = {
                 companyId: this.state.companyID,
                 phone: phone,
                 groupID: groupID,
-                companyName:common.getCookie("companyName"),
-                groupName:groupName
+                companyName: common.getCookie("companyName"),
+                groupName: groupName
             };
 
             common.axiosPost("invitePeopleGroup", "groupControllrer", data, common.guid()).then(
@@ -98,7 +97,6 @@ class GroupList extends Component {
     componentDidMount() {
         const data = {
             companyId: this.state.companyID
-
         };
 
         common.axiosPost("getGroupList", "groupControllrer", data, common.guid()).then(
@@ -122,35 +120,31 @@ class GroupList extends Component {
         return true;
     }
 
-    lookGroupListBtnClick(id,event){
+    lookGroupListBtnClick(id, event) {
         console.log(id);
         var path = {
-            pathname:'/groupList',
-            state:id,
+            pathname: '/groupList',
+            state: id,
         }
         this.props.history.push(path);
-
     }
 
-groupList(){
-    return(
-        <div>
-            <GroupMemberList groupid ={this.state.currentGroupID}/>
-        </div>
-    )
-}
-render()
-{
-    if(this.state.currentGroupID>0)
-    {
-       return this.groupList();
-    }
-    else
-    {
-       return this.renderGroup();
+    groupList() {
+        return (
+            <div>
+                <GroupMemberList groupid={this.state.currentGroupID}/>
+            </div>
+        )
     }
 
-}
+    render() {
+        if (this.state.currentGroupID > 0) {
+            return this.groupList();
+        }
+        else {
+            return this.renderGroup();
+        }
+    }
 
     renderGroup() {
         const columns = [{
@@ -165,7 +159,7 @@ render()
                     <InviteGroupPeople
                         groupItem={record}
                         handleDeleteRecord={this.removeGroup.bind(this)}
-                        handleInviteRecord={this.inviteGroupMember.bind(this,record.groupName)}
+                        handleInviteRecord={this.inviteGroupMember.bind(this, record.groupName)}
                         lookGroupHandle={this.lookGroupListBtnClick.bind(this)}
                     />
                 ),
@@ -174,15 +168,11 @@ render()
         return (
             <div>
                 <CreatCompanyAlert handleCreatgroup={this.handleCreatCompanyBackfunction.bind(this)} type={2}/>
-                <Table style={{ marginTop: 16 }}
-                    rowKey="id"
-                    className="ml-5 mr-5 mt-3"
-                    columns={columns}
-                    dataSource={this.state.groupList}
-
-                />
-
-
+                <Table style={{marginTop: 16}}
+                       rowKey="id"
+                       className="ml-5 mr-5 mt-3"
+                       columns={columns}
+                       dataSource={this.state.groupList}/>
             </div>
         )
     }
