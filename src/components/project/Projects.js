@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, message, Table, Divider, Button} from 'antd';
+import {Popconfirm, message, Table, Button} from 'antd';
 import * as RecordsAPI from '../../util/RecordsAPI'
 import * as common from '../../util/common.js';
 
@@ -8,12 +8,13 @@ export default class Projects extends Component {
 
     constructor(props) {
         super(props);
+        this.getProjectList();
         this.state = {
             projects: []
         }
     }
 
-    componentDidMount() {
+    getProjectList = () => {
         const data = {
             uId: common.getCookie("userId")
         }
@@ -21,10 +22,19 @@ export default class Projects extends Component {
             response => {
                 console.log(response);
                 if (response.code == 1)
-                    this.setState({projects: response.data});
+                    this.setState(
+                        {
+                            projects: response.data
+                        });
 
             },
-            error => console.log(error));
+            error => {
+                message.error("加载项目列表失败")
+            })
+    }
+
+    componentDidMount() {
+
     }
 
     handleProjectEditClick(project) {
@@ -54,39 +64,30 @@ export default class Projects extends Component {
         this.props.history.push(path);
     }
 
-    handleDeleteClick(project) {
-        const confirm = Modal.confirm;
-        confirm({
-            title: '警告',
-            content: '确定要删除 \"'+project.name+' \"这个项目吗',
-            okText: '确定',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk() {
-                let postDdatas = {
-                    uId: common.getCookie("userId"),
-                    pId: project.id
-                }
-                RecordsAPI.delectProjects(postDdatas).then(
-                    response => {
-                        message.success("删除成功");
-                        delete project.date;
-                        delete project.state;
-                        const projectIndex = this.state.projects.indexOf(project);
-                        const newProjects = this.state.projects.filter((item, index) => index !== projectIndex);
-                        this.setState({
-                            projects: newProjects
-                        });
+    handleDeleteClick(project, index) {
+        console.log(project);
+        let postDdatas = {
+            uId: common.getCookie("userId"),
+            pId: project.id
+        }
 
-                    },
-                    error => {
-                        message.success("删除失败");
-                    });
+        RecordsAPI.delectProjects(postDdatas).then(
+            response => {
+                message.success("删除成功");
+                let projects = this.state.projects;
+                projects.splice(index, 1);
+                this.setState({
+                    projects: projects
+                });
+                console.log(this.state.projects);
             },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
+            error => {
+                message.error("删除失败");
+            });
+    }
+
+    hanleCancleClick(e) {
+        console.log(e);
     }
 
     handleCreateProjectClick() {
@@ -103,28 +104,38 @@ export default class Projects extends Component {
     }
 
     render() {
-        const columns = [{
+        let columns = [{
             title: '项目名称',
             dataIndex: 'name',
             key: 'name',
+            fixed: 'left',
+            width: 500
         }, {
             title: '项目原计划时间',
             dataIndex: 'date',
             key: 'date',
+            width: 300
         }, {
             title: '项目状态',
             dataIndex: 'state',
             key: 'state',
+            width: 100
         }, {
             title: '操作',
             key: 'action',
-            render: (text, project) => (
+            width: 200,
+            render: (text, project, index) => (
                 <span>
-                     <Button type="primary" onClick={()=>this.handleProjectDetailClick(project)}>详情</Button>
-                     <Divider type="vertical"/>
-                     <Button  type="primary" onClick={()=>this.handleProjectEditClick(project)}>编辑</Button>
-                     <Divider type="vertical"/>
-                     <Button type="primary" onClick={()=>this.handleDeleteClick(project)}>删除</Button>
+                     {/*<Button type="primary" className={"mr-1"}*/}
+                    {/*onClick={() => this.handleProjectDetailClick(project)}>详情</Button>*/}
+                    <Button type="primary" className={"mr-1"}
+                            onClick={() => this.handleProjectEditClick(project)}>编辑</Button>
+                    <Popconfirm placement="topRight" title={`确定要删除 \"${project.name}\" 这个项目吗?`}
+                                onConfirm={this.handleDeleteClick.bind(this, project, index)} okText="删除"
+                                cancelText="取消"
+                                onCancel={this.hanleCancleClick.bind(this)}>
+                             <Button type="primary">删除</Button>
+                     </Popconfirm>
                  </span>
             ),
         }];
@@ -159,8 +170,14 @@ export default class Projects extends Component {
         return (
             <div>
                 <Button type="primary" style={{margin: '0px 0px 20px 0px'}}
-                        onClick ={this.handleCreateProjectClick.bind(this)} >创建项目</Button>
-                <Table columns={columns} dataSource={data} bordered />
+                        onClick={this.handleCreateProjectClick.bind(this)}>创建项目</Button>
+                <Table onRow={(project) => {
+                    return {
+                        onClick: () => {
+                            this.handleProjectDetailClick(project);
+                        }       // 点击行
+                    };
+                }} columns={columns} dataSource={data} bordered pageSize={1} total={this.state.projects.size}/>
             </div>
         );
     }

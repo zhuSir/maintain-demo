@@ -10,7 +10,7 @@ class ProjectCreate extends Component {
 
     constructor(props) {
         super(props);
-        var data = this.props.location.state;
+        let data = this.props.location.state;
         console.log(data);
         if (data.isCreate === false) {
             let project = data.project;
@@ -201,6 +201,7 @@ class ProjectCreate extends Component {
             }
         }
         if (this.state.isCreate) {
+            console.log(data);
             RecordsAPI.createProject(data).then(
                 response => {
                     if (response.code === 1) {
