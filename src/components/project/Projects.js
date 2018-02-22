@@ -115,22 +115,21 @@ export default class Projects extends Component {
             title: '项目名称',
             dataIndex: 'name',
             key: 'name',
-            fixed: 'left',
-            width: 500
+            width: 400
         }, {
             title: '项目原计划时间',
             dataIndex: 'date',
             key: 'date',
-            width: 300
+            width: 200
         }, {
             title: '项目状态',
             dataIndex: 'state',
             key: 'state',
-            width: 100
+            width: 80
         }, {
             title: '操作',
             key: 'action',
-            width: 200,
+            width: 180,
             render: (text, project, index) => (
                 <span>
                      {/*<Button type="primary" className={"mr-1"}*/}
@@ -184,7 +183,9 @@ export default class Projects extends Component {
                             this.handleProjectDetailClick(project);
                         }       // 点击行
                     };
-                }} columns={columns} dataSource={data} bordered pageSize={1} total={this.state.projects.size}/>
+                }} columns={columns} dataSource={data} bordered
+                       pagination={{  //分页
+                           pageSize:6,  hideOnSinglePage:false}}/>
             </div>
         );
     }
