@@ -37,7 +37,8 @@ export default class Projects extends Component {
 
     }
 
-    handleProjectEditClick(project) {
+    handleProjectEditClick(e,project) {
+        e.stopPropagation();
         console.log("项目编辑");
         console.log(project);
         // this.props.handleProjectEditClick(project);
@@ -64,8 +65,9 @@ export default class Projects extends Component {
         this.props.history.push(path);
     }
 
-    handleDeleteClick(project, index) {
+    handleDeleteClick(e,project, index) {
         console.log(project);
+        e.stopPropagation();
         let postDdatas = {
             uId: common.getCookie("userId"),
             pId: project.id
@@ -87,7 +89,12 @@ export default class Projects extends Component {
     }
 
     hanleCancleClick(e) {
+        e.stopPropagation();
         console.log(e);
+    }
+
+    handlePopShow(e){
+        e.stopPropagation();
     }
 
     handleCreateProjectClick() {
@@ -129,12 +136,12 @@ export default class Projects extends Component {
                      {/*<Button type="primary" className={"mr-1"}*/}
                     {/*onClick={() => this.handleProjectDetailClick(project)}>详情</Button>*/}
                     <Button type="primary" className={"mr-1"}
-                            onClick={() => this.handleProjectEditClick(project)}>编辑</Button>
+                            onClick={(e) => this.handleProjectEditClick(e,project)}>编辑</Button>
                     <Popconfirm placement="topRight" title={`确定要删除 \"${project.name}\" 这个项目吗?`}
-                                onConfirm={this.handleDeleteClick.bind(this, project, index)} okText="删除"
+                                onConfirm={(e)=>this.handleDeleteClick(e,project,index,this)} okText="删除"
                                 cancelText="取消"
-                                onCancel={this.hanleCancleClick.bind(this)}>
-                             <Button type="primary">删除</Button>
+                                onCancel={(e)=>this.hanleCancleClick(e,this)}>
+                             <Button type="primary" onClick={(e)=>this.handlePopShow(e)}>删除</Button>
                      </Popconfirm>
                  </span>
             ),
