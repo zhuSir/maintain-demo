@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Popconfirm, message, Table, Button} from 'antd';
-import * as RecordsAPI from '../../util/RecordsAPI'
-import * as common from '../../util/common.js';
+import * as net from '../../util/common';
 
 
 export default class Projects extends Component {
@@ -16,21 +15,21 @@ export default class Projects extends Component {
 
     getProjectList = () => {
         const data = {
-            uId: common.getCookie("userId")
+            uId: net.getCookie("userId")
         }
-        RecordsAPI.getProjects(data).then(
+        net.axiosPost("listProject", "projectController", data, net.guid()).then(
             response => {
                 console.log(response);
-                if (response.code == 1)
-                    this.setState(
-                        {
-                            projects: response.data
-                        });
-
-            },
+                let data = response.data.data;
+                this.setState({
+                    projects: data
+                })
+            }
+        ).catch(
             error => {
-                message.error("加载项目列表失败")
-            })
+                message.error("加载项目列表失败");
+            }
+        );
     }
 
     componentDidMount() {
@@ -65,27 +64,28 @@ export default class Projects extends Component {
         this.props.history.push(path);
     }
 
-    handleDeleteClick(e,project, index) {
+    handleDeleteClick(e,project, projectIndex) {
         console.log(project);
         e.stopPropagation();
         let postDdatas = {
-            uId: common.getCookie("userId"),
-            pId: project.id
+            uId: net.getCookie("userId"),
+            id: project.id
         }
 
-        RecordsAPI.delectProjects(postDdatas).then(
+        net.axiosPost("deleteProject", "projectController", postDdatas, net.guid()).then(
             response => {
                 message.success("删除成功");
-                let projects = this.state.projects;
-                projects.splice(index, 1);
+                const newProjects = this.state.projects.filter((item, index) => index !== projectIndex);
                 this.setState({
-                    projects: projects
+                    projects: newProjects
                 });
                 console.log(this.state.projects);
-            },
+            }
+        ).catch(
             error => {
-                message.error("删除失败");
-            });
+                message.error("加载项目列表失败");
+            }
+        );
     }
 
     hanleCancleClick(e) {
@@ -185,6 +185,7 @@ export default class Projects extends Component {
                     };
                 }} columns={columns} dataSource={data} bordered
                        pagination={{  //分页
+                           total:this.state.projects.length,
                            pageSize:6,  hideOnSinglePage:false}}/>
             </div>
         );
