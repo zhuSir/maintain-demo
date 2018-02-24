@@ -3,7 +3,6 @@ import {Form, Input, Button, DatePicker, Select, Radio, message} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import * as RecordsAPI from '../../util/RecordsAPI';
 import * as net from '../../util/common';
 
 class ProjectCreate extends Component {
@@ -72,20 +71,27 @@ class ProjectCreate extends Component {
             uId: net.getCookie("userId")
         }
         console.log(projectCompanyData);
-        RecordsAPI.getProjectsCompany(projectCompanyData).then(
+        net.axiosPost("listCompany", "projectCompanyController", projectCompanyData, net.guid()).then(
             response => {
-                console.log(response);
-                if (response.code === 1) {
+                console.log(response.data.data);
+                if (response.data.result === "true") {
                     this.setState({
                         ...this.state,
-                        companys: response.data
+                        companys: response.data.data
+                    });
+                } else {
+                    this.setState({
+                        ...this.state,
+                        companys: []
                     });
                 }
-            },
-            error => {
-                console.log(error)
             }
-        );
+        ).catch(
+            error => {
+                console.log(error + "error")
+            }
+        )
+
     }
 
     handleInputChange(event) {
@@ -178,7 +184,7 @@ class ProjectCreate extends Component {
             bidState: this.state.project.bidState,
             owenerUnitId: this.state.project.owenerUnitId,
             constructUnitId: this.state.project.constructUnitId,
-            depId: RecordsAPI.companyId,
+            depId: net.getCookie("companyId"),
             managerId: this.state.project.managerId,
             projectState: this.state.project.projectState,
         }

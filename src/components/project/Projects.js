@@ -98,6 +98,11 @@ export default class Projects extends Component {
     }
 
     handleCreateProjectClick() {
+        let companyId = net.getCookie("companyId");
+        if(typeof(net.getCookie("companyId"))==="undefind"||companyId===0){
+            message.error("还没有公司，请先创建或加入公司");
+            return;
+        }
         console.log("创建项目点击");
         // this.props.handleCreateProjectClick();
         let data = {
