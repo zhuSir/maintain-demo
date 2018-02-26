@@ -18,6 +18,7 @@ class GroupList extends Component {
             havaDate:false
 
 
+
         };
     }
 
@@ -68,16 +69,16 @@ class GroupList extends Component {
         )
     }
 
-    inviteGroupMember(groupName,groupID, phone) {
-        console.log(groupName,groupID,phone);
+    inviteGroupMember(groupName, groupID, phone) {
+        console.log(groupName, groupID, phone);
 
         if (this.phoneVerify(phone)) {
             const data = {
                 companyId: this.state.companyID,
                 phone: phone,
                 groupID: groupID,
-                companyName:common.getCookie("companyName"),
-                groupName:groupName
+                companyName: common.getCookie("companyName"),
+                groupName: groupName
             };
 
             common.axiosPost("invitePeopleGroup", "groupControllrer", data, common.guid()).then(
@@ -102,6 +103,7 @@ class GroupList extends Component {
             companyId: this.state.companyID
 
         };
+
         common.axiosPost("getGroupList", "groupControllrer", data, common.guid()).then(
             response => {
                 this.setState({
@@ -134,6 +136,7 @@ class GroupList extends Component {
             state:id,
         }
         this.props.history.push(path);
+
     }
 
 
@@ -166,7 +169,7 @@ class GroupList extends Component {
                     <InviteGroupPeople
                         groupItem={record}
                         handleDeleteRecord={this.removeGroup.bind(this)}
-                        handleInviteRecord={this.inviteGroupMember.bind(this,record.groupName)}
+                        handleInviteRecord={this.inviteGroupMember.bind(this, record.groupName)}
                         lookGroupHandle={this.lookGroupListBtnClick.bind(this)}
                     />
                 ),

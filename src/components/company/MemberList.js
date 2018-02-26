@@ -44,7 +44,11 @@ class MemberList extends Component {
     }
 
     userInfo(id, event) {
-        alert(id)
+        var path = {
+            pathname: '/userinfo',
+            state: id,
+        }
+        this.props.history.push(path);
     }
 
     componentDidMount() {
@@ -71,7 +75,6 @@ class MemberList extends Component {
             title: '姓名',
             dataIndex: 'createName',
             key: 'createName',
-            render: (text, record) => (<a onClick={this.userInfo.bind(this, record.id)}>{text}</a>),
         }, {
             title: '手机号',
             dataIndex: 'mobilephone',
@@ -86,7 +89,7 @@ class MemberList extends Component {
             render: (text, record) => (
                 <div>
                     <Button type="primary" style={{ marginRight: 16 }} onClick={this.handleDele.bind(this, record.id)}>删除</Button>
-                    <Button type="primary" >查看详情</Button>
+                    <Button type="primary" onClick={this.userInfo.bind(this, record.id)} >查看详情</Button>
                 </div>
 
             ),
