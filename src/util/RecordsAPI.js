@@ -1,8 +1,8 @@
 import $ from 'jquery';
-
-// const api = "http://localhost:8080";
-const api = "http://10.100.1.247:8080";
-//const api = "http://10.100.1.217:8080";
+//import $ from 'axios';
+//const api = "http://localhost:8080";
+const api = "http:// 10.100.1.237:8080";
+//const api = "http://10.100.6.186:8080";
 
 export const uId = 1;
 
