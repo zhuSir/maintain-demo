@@ -14,7 +14,9 @@ class GroupList extends Component {
             groupList: [],
             userId: common.getCookie("userId"), // common.getCookie("userId")
             userName: common.getCookie("userName"), // common.getCookie("userName")
-            currentGroupID:0
+            currentGroupID:0,
+            havaDate:false
+
 
         };
     }
@@ -100,16 +102,19 @@ class GroupList extends Component {
             companyId: this.state.companyID
 
         };
-
         common.axiosPost("getGroupList", "groupControllrer", data, common.guid()).then(
             response => {
                 this.setState({
-                    groupList: response.data.data
+                    groupList: response.data.data,
+                     havaDate:true
                 })
             }
         ).catch(
             error => {
                 console.log(error)
+                this.setState({
+                    havaDate:false
+                })
             }
         )
     }
@@ -129,28 +134,24 @@ class GroupList extends Component {
             state:id,
         }
         this.props.history.push(path);
-
     }
 
-groupList(){
-    return(
-        <div>
-            <GroupMemberList groupid ={this.state.currentGroupID}/>
-        </div>
-    )
-}
-render()
-{
-    if(this.state.currentGroupID>0)
+
+    render()
     {
-       return this.groupList();
+        if(this.state.havaDate)
+        {
+           return this.renderGroup();
+        }
+        else
+        {
+           return (
+               <div>
+                   加载中。。。
+               </div>
+           )
+        }
     }
-    else
-    {
-       return this.renderGroup();
-    }
-
-}
 
     renderGroup() {
         const columns = [{
@@ -179,7 +180,7 @@ render()
                     className="ml-5 mr-5 mt-3"
                     columns={columns}
                     dataSource={this.state.groupList}
-
+                       key="ddd"
                 />
 
 
