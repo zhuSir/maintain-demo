@@ -10,7 +10,6 @@ class UserInfo extends Component {
 
     constructor(event) {
         super(event);
-
         this.state = {
             userID: common.getCookie('userId'),
             companyName: common.getCookie('companyName'),
