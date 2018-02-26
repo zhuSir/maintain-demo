@@ -9,7 +9,7 @@ import { Input } from 'antd';
 import { Popconfirm, message, Button } from 'antd';
 
 import {Table} from 'antd';
-import  * as common from './../utils/common'
+import  * as common from '../../util/common'
 
 
 const ButtonGroup = Button.Group;
@@ -37,8 +37,6 @@ function AlertError(title) {
     });
 }
 
-
-
 function handleMenuClick(e) {
     console.log('click', e);
 }
@@ -59,8 +57,6 @@ const EditableCell = ({ editable, value, onChange }) => (
     </div>
 );
 
-
-
 export default  class RolePage extends Component{
 
     constructor(props)
@@ -78,8 +74,40 @@ export default  class RolePage extends Component{
         }
 
         //初始化的时候就请求数据======================
+         this.checkRole();
          this.requestPersons();
     }
+
+    checkRole =() =>{
+
+        let para = {id:'1'};
+        common.axiosPost("selectUserInfoByRoleId","roleController",para,common.guid()).then(responseObj =>{
+
+            let res = responseObj.data.data;
+            if (res.error == null) {
+                message.success(res.info);
+                this.setState({
+                    responData : res,
+                    isLoad:true,
+                    beforData:res
+                });
+            }else if(res.code == 1) {
+
+                message.warning(res.info)
+
+            }
+        }).catch(error =>{
+
+                this.setState({
+                    responData : [],
+                    isLoad:false
+                });
+                AlertError("网络崩溃了，请重新加载。。。。。")
+            }
+        );
+    }
+
+
 
     // 网络请求  请求角色接口 =======================================
     requestPersons =() =>{
@@ -401,7 +429,7 @@ export default  class RolePage extends Component{
             render: (text, record) => this.renderColumns(text, record, 'rolename'),
         }, {
             title: '操作',
-            width: '30%',
+            width: '40%',
             dataIndex: 'id',
             key:"id",
 
@@ -416,16 +444,16 @@ export default  class RolePage extends Component{
                                     cancelText="取消"
                                     onConfirm = {() => this.deleteRole(index)}
                         >
-                            <Button className="ml-2 " icon="close" type="primary">删除</Button>
+                            <Button offset ={3} icon="close" type="primary">删除</Button>
                         </Popconfirm>
 
-                        <Button className="ml-2 " icon="user-add" type="danger">用户</Button>
+                        <Button offset ={3} icon="user-add" type="danger">用户</Button>
 
                         <Popconfirm placement="topRight"
                                     title={this.addpermissionSetting()}
                                     okText="确定"
                                     cancelText="取消">
-                            <Button className="ml-2 " icon="setting" type="danger">权限设置</Button>
+                            <Button offset ={3} icon="setting" type="danger">权限设置</Button>
                         </Popconfirm>
 
                     </div>)

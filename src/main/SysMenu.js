@@ -51,6 +51,15 @@ class SysMenu extends Component{
                             <span>权限管理</span>
                         </Link>
                     </Menu.Item>
+
+                    <Menu.Item key="角色管理">
+                        <Link to="/roleManagement">
+                            <Icon type="user" />
+                            <span>角色管理</span>
+                        </Link>
+                    </Menu.Item>
+
+
                 </SubMenu>
 
                 <Menu.Item key="项目管理">
