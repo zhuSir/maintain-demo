@@ -11,8 +11,12 @@ import Company from '../components/company/Company';
 import SettingGroup from '../components/groupauthority/SettingGroup';
 import GroupList from '../components/group/GroupList'
 import MemberList from '../components/company/MemberList'
-import UserInfo from '../components/company/UserInfo'
 import GroupMemberList from "../components/company/GroupMemberList"
+import Projects from "../components/project/Projects"
+import ProjectDetail from "../components/project/ProjectDetail"
+import ProjectCreate from "../components/project/ProjectCreate"
+import Companylist from "../components/projectcompany/Companylist"
+import Information from "../components/projectcompany/Information"
 const { Content } = Layout;
 
 const Home = () => (
@@ -39,7 +43,11 @@ class SysContent extends Component{
                         <Route path="/group" component={GroupList}/>
                         <Route path="/companyMemberList" component={MemberList}/>
                         <Route path="/groupList" component={GroupMemberList}/>
-                        <Route path="/userinfo" component={UserInfo}/>
+                        <Route path="/Projects" component={Projects}/>
+                        <Route path="/ProjectDetail" component={ProjectDetail}/>
+                        <Route path="/ProjectCreate" component={ProjectCreate}/>
+                        <Route path="/Companylist" component={Companylist}/>
+                        <Route path="/Information" component={Information}/>
 
                     </div>
                 </div>
