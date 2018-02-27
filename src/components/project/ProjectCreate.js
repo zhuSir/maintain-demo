@@ -3,7 +3,6 @@ import {Form, Input, Button, DatePicker, Select, Radio, message} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import * as RecordsAPI from '../../util/RecordsAPI';
 import * as net from '../../util/common';
 
 class ProjectCreate extends Component {
@@ -115,9 +114,9 @@ class ProjectCreate extends Component {
                 project: project
             });
         } else {
-            let name = label.ref;
+            // let name = label.ref;
             let project = this.state.project;
-            project["" + name] = value;
+            project["" + label] = value;
             this.setState({
                 ...this.state.project,
                 project: project
@@ -287,7 +286,7 @@ class ProjectCreate extends Component {
                         {...formItemLayout}
                         label="项目负责人"
                     >
-                        <Select placeholder="选择项目负责人" onChange={this.handleSelectChange.bind(this)}
+                        <Select placeholder="选择项目负责人" onChange={(value)=>this.handleSelectChange(value,"managerId")}
                                 value={this.state.project.managerId}>
                             {this.state.members.map(member => <Option value={member.id} ref={"managerId"}
                                                                       key={member.id}>{member.createName}</Option>)}
@@ -334,7 +333,7 @@ class ProjectCreate extends Component {
                         label="业主单位"
                     >
                         <Select placeholder="选择业主单位"
-                                onChange={this.handleSelectChange.bind(this)}
+                                onChange={(value)=>this.handleSelectChange(value,"owenerUnitId")}
                                 value={this.state.project.owenerUnitId}>
                             {this.state.companys.map(company => <Option value={company.id} ref={"owenerUnitId"}
                                                                         key={company.id}>{company.name}</Option>)}
@@ -345,7 +344,7 @@ class ProjectCreate extends Component {
                         label="建设单位"
                     >
                         <Select placeholder="选择建设单位"
-                                onChange={this.handleSelectChange.bind(this)}
+                                onChange={(value)=>this.handleSelectChange(value,"constructUnitId")}
                                 value={this.state.project.constructUnitId}>
                             {this.state.companys.map(company => <Option value={company.id} ref={"constructUnitId"}
                                                                         key={company.id}>{company.name}</Option>)}
@@ -374,7 +373,7 @@ class ProjectCreate extends Component {
                         label="审核人"
                     >
                         <Select placeholder="选择审核人(选填)" allowClear={true}
-                                onChange={this.handleSelectChange.bind(this)}
+                                onChange={(value)=>this.handleSelectChange(value,"auditPersonId")}
                         >
                             {this.state.members.map(member => <Option value={member.id} ref={"auditPersonId"}
                                                                       key={member.id}>{member.createName}</Option>)}
@@ -407,7 +406,7 @@ class ProjectCreate extends Component {
                         label="项目负责人"
                     >
                         <Select placeholder="选择项目负责人"
-                                onChange={this.handleSelectChange.bind(this)}
+                                onChange={(value)=>this.handleSelectChange(value,"managerId")}
                                 value={this.state.project.managerId}>
                             {this.state.members.map(member => <Option value={member.id} ref={"managerId"}
                                                                       key={member.id}>{member.createName}</Option>)}
@@ -455,7 +454,7 @@ class ProjectCreate extends Component {
                         label="业主单位"
                     >
                         <Select placeholder="选择业主单位"
-                                onChange={this.handleSelectChange.bind(this)}
+                                onChange={(value)=>this.handleSelectChange(value,"owenerUnitId")}
                                 value={this.state.project.owenerUnitId}>
                             {this.state.companys.map(company => <Option value={company.id} ref={"owenerUnitId"}
                                                                         key={company.id}>{company.name}</Option>)}
@@ -466,7 +465,7 @@ class ProjectCreate extends Component {
                         label="建设单位"
                     >
                         <Select placeholder="选择建设单位"
-                                onChange={this.handleSelectChange.bind(this)}
+                                onChange={(value)=>this.handleSelectChange(value,"constructUnitId")}
                                 value={this.state.project.constructUnitId}>
                             {this.state.companys.map(company => <Option value={company.id} ref={"constructUnitId"}
                                                                         key={company.id}>{company.name}</Option>)}
@@ -495,7 +494,7 @@ class ProjectCreate extends Component {
                         label="审核人"
                     >
                         <Select placeholder="选择审核人(选填)" allowClear={true}
-                                onChange={this.handleSelectChange.bind(this)}>
+                                onChange={(value)=>this.handleSelectChange(value,"auditPersonId")}>
                             {this.state.members.map(member => <Option value={member.id} ref={"auditPersonId"}
                                                                       key={member.id}>{member.createName}</Option>)}
                         </Select>
