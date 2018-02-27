@@ -71,10 +71,10 @@ class SysMenu extends Component{
                             <span>我的项目</span>
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="甲方公司">
+                    <Menu.Item key="基础信息">
                         <Link to="/Companylist">
                             <Icon type="table"/>
-                            <span>甲方公司</span>
+                            <span>基础信息</span>
                         </Link>
                     </Menu.Item>
                 </SubMenu>
