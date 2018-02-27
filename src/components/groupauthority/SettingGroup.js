@@ -7,18 +7,19 @@ export  default class SettingGroup extends Component {
 
     constructor(event) {
         super(event);
-        let isEdit = common.getCookie('createBy');
-        if (isEdit == common.getCookie('createBy')) {
-            isEdit = true;
-        }
-        else {
-            isEdit = false;
-        }
+        // let isEdit = common.getCookie('createBy');
+        // if (isEdit == common.getCookie('createBy')) {
+        //     isEdit = true;
+        // }
+        // else {
+        //     isEdit = false;
+        // }
         this.state = {
             groupList: [],
-            isEdit: isEdit,
+
             itemList: [],
-            editResult: []
+            editResult: [],
+            havaDate:false
         };
     }
 
@@ -35,56 +36,72 @@ export  default class SettingGroup extends Component {
     componentDidMount() {
         const data = {
             companyId: common.getCookie("companyId")
-
-
         };
 
         common.axiosPost("getGroupAuthorityList", "authorityController", data, common.guid()).then(
             response => {
-                console.log(response.data.data + "eeeee");
 
                 this.setState({
-                    groupList: response.data.data
+                    groupList: response.data.data,
+                    havaDate:true,
                 })
             }
         ).catch(
             error => {
-                console.log(error)
+                console.log(error),
+
+                    this.setState({
+                        havaDate:false,
+                    })
+
             }
         )
         common.axiosPost("getAllList", "authorityController", data, common.guid()).then(
             response => {
-                console.log(response.data.data + "eeeee");
                 this.setState({
                     itemList: response.data.data
                 })
-
             }
         ).catch(
             error => {
                 console.log(error)
             }
         )
-
     }
 
 
     onRowClick() {
-        console.log("dddddddd");
 
     }
 
-    render() {
+    renderError() {
+        return (
+            <div>
+                加载中。。。
+            </div>
+        )
+    }
+    render(){
+        if(this.state.havaDate)
+        {
+            return this.renderData();
+        }
+        else
+        {
+            return this.renderError();
+        }
+    }
+    renderData() {
 
         function onChange(groupId, checkedValues,) {
 
             const data = {
                 groupID: groupId.id,
-                auID: checkedValues
+                auID: checkedValues,
+                companyID:common.getCookie("companyId")
             };
             common.axiosPost("setGroupAu", "authorityController", data, common.guid()).then(
                 response => {
-
 
                 }
             ).catch(
@@ -105,20 +122,21 @@ export  default class SettingGroup extends Component {
             key: 'action',
             render: (text, record) => (
 
-                <Checkbox.Group style={{width: '60%'}} onChange={onChange.bind(this, record)}
-                                defaultValue={record.authorityArr}>
-                    <Row>
-                        {this.state.itemList.map((item) => (
-                            <Col span={8}><Checkbox value={item.id} defaultChecked={true}>{item.name}</Checkbox></Col>
-                        ))}
-                    </Row>
+                <Checkbox.Group
+                    key='ddd'
+                    style={{width: '60%'}}
+                    onChange={onChange.bind(this, record)}
+                     defaultValue={record.authorityArr}>
+                        <Row>
+                            {this.state.itemList.map((item) => (
+                                <Col span={8}><Checkbox    key={item.id} value={item.id} defaultChecked={true}>{item.name}</Checkbox></Col>
+                            ))}
+                        </Row>
                 </Checkbox.Group>
             ),
         }]
-
         return (
-
-            <Table rowKey="id" columns={columns} dataSource={this.state.groupList}/>
+            <Table rowKey="id"  key="ddd" columns={columns} dataSource={this.state.groupList}/>
         )
     }
 }
