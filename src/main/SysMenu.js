@@ -24,7 +24,7 @@ class SysMenu extends Component{
                         <span>统计</span>
                     </Link>
                 </Menu.Item>
-                <SubMenu key="sub1" title={<span>
+                <SubMenu key="公司管理" title={<span>
                     <Icon type="android" />
                     <span>公司管理</span></span>}>
                     <Menu.Item key="公司信息">
