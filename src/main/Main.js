@@ -56,6 +56,7 @@ class SiderDemo extends Component {
         net.delCookie('userName');
         net.delCookie('groupId');
         net.delCookie('groupName');
+        net.delCookie('isConpanyLeader');
         this.props.jumpToMain(1);//跳到主页
     }
 
@@ -79,7 +80,6 @@ class SiderDemo extends Component {
                         collapsible
                         collapsed={this.state.collapsed}>
                         <div className="logo"/>
-
                         <SysMenu handeleMeunType={this.handeleMeunType.bind(this)}/>
 
                     </Sider>
