@@ -103,6 +103,11 @@ class GroupList extends Component {
             companyId: this.state.companyID
 
         };
+        if( common.getCookie("companyId")==0)
+        {
+            message.error("您还没有公司！")
+            return;
+        }
 
         common.axiosPost("getGroupList", "groupControllrer", data, common.guid()).then(
             response => {

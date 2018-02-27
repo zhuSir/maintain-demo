@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {Table, Icon, Divider, Button, Checkbox, Row, Col} from 'antd';
-import * as common from '../../util/common.js';
+import {Table, Icon, Divider, Button, Checkbox, Row, Col,message} from 'antd';
+import * as common from '../../util/common.js'
 
 
 export  default class SettingGroup extends Component {
@@ -37,6 +37,12 @@ export  default class SettingGroup extends Component {
         const data = {
             companyId: common.getCookie("companyId")
         };
+        if( common.getCookie("companyId")==0)
+        {
+            message.error("您还没有公司！")
+            return;
+        }
+
 
         common.axiosPost("getGroupAuthorityList", "authorityController", data, common.guid()).then(
             response => {
@@ -128,8 +134,10 @@ export  default class SettingGroup extends Component {
                     onChange={onChange.bind(this, record)}
                      defaultValue={record.authorityArr}>
                         <Row>
+
                             {this.state.itemList.map((item) => (
-                                <Col span={8}><Checkbox    key={item.id} value={item.id} defaultChecked={true}>{item.name}</Checkbox></Col>
+                                    <Col span={8}><Checkbox    key={item.id} value={item.id} disabled={common.getCookie("companyId")!=0}  defaultChecked={true}>{item.name}</Checkbox></Col>
+
                             ))}
                         </Row>
                 </Checkbox.Group>
@@ -138,5 +146,5 @@ export  default class SettingGroup extends Component {
         return (
             <Table rowKey="id"  key="ddd" columns={columns} dataSource={this.state.groupList}/>
         )
-    }
+    }f
 }
