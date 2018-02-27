@@ -17,6 +17,8 @@ import ProjectDetail from "../components/project/ProjectDetail"
 import ProjectCreate from "../components/project/ProjectCreate"
 import Companylist from "../components/projectcompany/Companylist"
 import Information from "../components/projectcompany/Information"
+import RolePage from  '../components/roleManagement/RolePage'
+
 const { Content } = Layout;
 
 const Home = () => (
@@ -49,12 +51,13 @@ class SysContent extends Component{
                         <Route path="/Companylist" component={Companylist}/>
                         <Route path="/Information" component={Information}/>
 
+                        <Route path="/roleManagement" component={RolePage}/>
+
                     </div>
                 </div>
             </Content>
         );
     }
-
 }
 
 export default SysContent

@@ -51,6 +51,15 @@ class SysMenu extends Component{
                             <span>权限管理</span>
                         </Link>
                     </Menu.Item>
+
+                    <Menu.Item key="角色管理">
+                        <Link to="/roleManagement">
+                            <Icon type="user" />
+                            <span>角色管理</span>
+                        </Link>
+                    </Menu.Item>
+
+
                 </SubMenu>
 
                 <SubMenu key="项目管理" title={<span>
@@ -63,7 +72,7 @@ class SysMenu extends Component{
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="甲方公司">
-                        <Link to="/maintain">
+                        <Link to="/Companylist">
                             <Icon type="table"/>
                             <span>甲方公司</span>
                         </Link>
