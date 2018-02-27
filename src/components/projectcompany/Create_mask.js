@@ -50,12 +50,12 @@ const CollectionCreateForm = Form.create()(
                             <Input  type="number" maxlength="11"/>
                         )}
                     </FormItem>
-                    <FormItem label="建设单位">
+                    {/*<FormItem label="建设单位">
                         {getFieldDecorator('build')(<Input type="textarea" />)}
                     </FormItem>
                     <FormItem label="归属部分">
                         {getFieldDecorator('deportment')(<Input type="textarea" />)}
-                    </FormItem>
+                    </FormItem>*/}
                     <FormItem label="备注">
                         {getFieldDecorator('mark')(<Input type="textarea" />)}
                     </FormItem>
@@ -88,8 +88,8 @@ class Create_mask extends Component {
                 name: values.name,
                 managerName: values.managerName,
                 managerPhone:  values.managerPhone,
-                build: values.build,
-                deportment: values.deportment,
+               /* build: values.build,
+                deportment: values.deportment,*/
                 mark: values.mark,
                 /*uId: RecordsAPI.uId*/
                 uId: net.getCookie("userId")
