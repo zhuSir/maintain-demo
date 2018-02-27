@@ -34,7 +34,7 @@ class SysMenu extends Component{
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="公司成员">
-                        <Link to="/maintain">
+                        <Link to="/companyMemberList">
                             <Icon type="user" />
                             <span>公司成员</span>
                         </Link>

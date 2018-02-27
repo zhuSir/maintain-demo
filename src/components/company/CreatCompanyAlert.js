@@ -64,10 +64,7 @@ export default  class CreatCompanyAlert extends Component {
             //创建分组
             console.log("99999999999")
             this.props.handleCreatgroup(this.state.groupName);
-
         }
-
-
     }
     handleCancel = (e) => {
         console.log(e);
@@ -75,8 +72,6 @@ export default  class CreatCompanyAlert extends Component {
             visible: false,
         });
     }
-
-
     groupNameChange(event){
         this.setState({
             groupName:event.target.value
