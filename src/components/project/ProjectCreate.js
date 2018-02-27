@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, DatePicker, Select, Radio,message} from 'antd';
+import {Form, Input, Button, DatePicker, Select, Radio, message} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import * as common from '../../util/common';
 import * as RecordsAPI from '../../util/RecordsAPI';
+import * as net from '../../util/common';
 
 class ProjectCreate extends Component {
 
     constructor(props) {
         super(props);
-        var data = this.props.location.state;
+        let data = this.props.location.state;
         console.log(data);
         if (data.isCreate === false) {
             let project = data.project;
@@ -22,7 +22,7 @@ class ProjectCreate extends Component {
             console.log(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate());
             project.planEndDate = moment(date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(), "YYYY-MM-DD");
             this.state = {
-                isCreate:false,
+                isCreate: false,
                 members: [],
                 companys: [],
                 project: project
@@ -30,7 +30,7 @@ class ProjectCreate extends Component {
             console.log(this.state.project);
         } else {
             this.state = {
-                isCreate:true,
+                isCreate: true,
                 members: [],
                 companys: [],
                 project: {}
@@ -44,10 +44,10 @@ class ProjectCreate extends Component {
 
     componentDidMount() {
         let postCompanyData = {
-            companyid: common.getCookie("companyId"),
+            companyid: net.getCookie("companyId"),
         };
         console.log(postCompanyData);
-        common.axiosPost("listCompanyMember", "groupControllrer", postCompanyData, common.guid()).then(
+        net.axiosPost("listCompanyMember", "groupControllrer", postCompanyData, net.guid()).then(
             response => {
                 console.log(response.data.data.data);
                 if (response.data.data.code === 0) {
@@ -64,28 +64,35 @@ class ProjectCreate extends Component {
             }
         ).catch(
             error => {
-                console.log(error + "error");
+                console.log(error + "error")
             }
         )
 
         let projectCompanyData = {
-            uId: common.getCookie("userId")
+            uId: net.getCookie("userId")
         }
         console.log(projectCompanyData);
-        RecordsAPI.getProjectsCompany(projectCompanyData).then(
+        net.axiosPost("listCompany", "projectCompanyController", projectCompanyData, net.guid()).then(
             response => {
-                console.log(response);
-                if (response.code === 1) {
+                console.log(response.data.data);
+                if (response.data.result === "true") {
                     this.setState({
                         ...this.state,
-                        companys: response.data
+                        companys: response.data.data
+                    });
+                } else {
+                    this.setState({
+                        ...this.state,
+                        companys: []
                     });
                 }
-            },
-            error => {
-                console.log(error)
             }
-        );
+        ).catch(
+            error => {
+                console.log(error + "error")
+            }
+        )
+
     }
 
     handleInputChange(event) {
@@ -171,16 +178,16 @@ class ProjectCreate extends Component {
         endDate = this.state.project.planEndDate.format('YYYY-MM-DD HH:mm:ss');
 
         let data = {
-            uId: common.getCookie("userId"),
+            uId: net.getCookie("userId"),
             startData: startDate,
             endDate: endDate,
             name: this.state.project.name,
             bidState: this.state.project.bidState,
             owenerUnitId: this.state.project.owenerUnitId,
             constructUnitId: this.state.project.constructUnitId,
-            depId: RecordsAPI.companyId,
+            depId: net.getCookie("companyId"),
             managerId: this.state.project.managerId,
-            projectState:this.state.project.projectState,
+            projectState: this.state.project.projectState,
         }
         if (typeof (this.state.project.auditPersonId) !== "undefined" && this.state.project.auditPersonId != null) {
             data = {
@@ -201,31 +208,42 @@ class ProjectCreate extends Component {
             }
         }
         if (this.state.isCreate) {
-            RecordsAPI.createProject(data).then(
+            console.log(data);
+            net.axiosPost("saveProject", "projectController", data, net.guid()).then(
                 response => {
-                    if (response.code === 1) {
+                    console.log(response.data);
+                    if (response.data.result==="true") {
                         message.success('创建成功');
                         this.props.history.push("/Projects");
+                    } else {
+                        message.error('创建失败');
                     }
-                },
+                }
+            ).catch(
                 error => {
                     message.error('创建失败');
-                });
-        }else{
+                }
+            );
+        } else {
             data = {
                 ...data,
-                pId: this.state.project.id
+                id: this.state.project.id
             }
-            RecordsAPI.updateProject(data).then(
+            net.axiosPost("updateProject", "projectController", data, net.guid()).then(
                 response => {
-                    if (response.code === 1) {
-                        message.success('提交成功');
+                    console.log(response.data);
+                    if (response.data.result==="true") {
+                        message.success('修改成功');
                         this.props.history.push("/Projects");
+                    } else {
+                        message.error('修改失败');
                     }
-                },
+                }
+            ).catch(
                 error => {
-                    message.error('提交失败');
-                });
+                    message.error('修改失败');
+                }
+            );
         }
     }
 
