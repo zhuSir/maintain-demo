@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {  Modal, Form, Input} from 'antd';
 import './Companylist.css'
 import * as RecordsAPI from '../../util/RecordsAPI'
+import * as net from '../../util/common';
 const FormItem = Form.Item;
 const formItemLayout = {
     labelCol: {
@@ -49,12 +50,12 @@ const CollectionCreateForm = Form.create()(
                             <Input  type="number" maxlength="11"/>
                         )}
                     </FormItem>
-                    <FormItem label="建设单位">
+                    {/*<FormItem label="建设单位">
                         {getFieldDecorator('build')(<Input type="textarea" />)}
                     </FormItem>
                     <FormItem label="归属部分">
                         {getFieldDecorator('deportment')(<Input type="textarea" />)}
-                    </FormItem>
+                    </FormItem>*/}
                     <FormItem label="备注">
                         {getFieldDecorator('mark')(<Input type="textarea" />)}
                     </FormItem>
@@ -87,13 +88,14 @@ class Create_mask extends Component {
                 name: values.name,
                 managerName: values.managerName,
                 managerPhone:  values.managerPhone,
-                mark: values.build,
-                mark: values.deportment,
+               /* build: values.build,
+                deportment: values.deportment,*/
                 mark: values.mark,
-                uId: RecordsAPI.uId
+                /*uId: RecordsAPI.uId*/
+                uId: net.getCookie("userId")
             }
             console.log(data)
-            RecordsAPI.createProjectsCompany(data).then(
+            net.axiosPost("saveCompany", "projectCompanyController",data,net.guid()).then(
                 response => {
                     console.log(response.data);
                     this.props.handleNewRecord(response.data);

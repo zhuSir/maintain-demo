@@ -28,12 +28,12 @@ class Information extends Component {
                     <li className="list-group-item">
                         <p className="navbar-text">联系人电话：<span className="forperson" id="forphone">{this.props.location.state.company.managerPhone}</span></p>
                     </li>
-                    <li className="list-group-item">
+                   {/* <li className="list-group-item">
                         <p className="navbar-text">建设单位： <span className="build" id="build">{this.props.location.state.company.build}</span></p>
                     </li>
                     <li className="list-group-item">
                         <p className="navbar-text">归属部门：<span className="deparment" id="deparment">{this.props.location.state.company.deportment}</span></p>
-                    </li>
+                    </li>*/}
                     <li className="list-group-item beish">
                         <div className="reference">
                             <p className="navbar-text">备注: <div className="discribe" id="discribe">{this.props.location.state.company.mark}</div></p>
