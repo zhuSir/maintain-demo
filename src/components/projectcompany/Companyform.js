@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import * as RecordsAPI from '../../util/RecordsAPI'
+/*import * as RecordsAPI from '../../util/RecordsAPI'*/
 import 'antd/dist/antd.css';
 import { Modal} from 'antd';
-
+import * as net from "../../util/common";
 class Companylist extends Component {
     constructor(props) {
         super(props);
@@ -19,17 +19,17 @@ class Companylist extends Component {
     /*编辑*/
     handleEdit(event) {
         event.preventDefault();
-
         /*数据请求响应，编辑后数据直接实时呈现*/
         let PostData = {
-            uId: RecordsAPI.uId,
-            cId: this.props.companyform.id,
+           /* uId: RecordsAPI.uId,*/
+            uId: net.getCookie("userId"),
+            Id: this.props.companyform.id,
             name: this.refs.name.value,
             managerName: this.refs.managerName.value,
             managerPhone: this.refs.managerPhone.value
         }
         console.log( PostData)
-        RecordsAPI.updateProjectsCompany(PostData).then(
+        net.axiosPost("updateCompany","projectCompanyController",PostData,net.guid()).then(
             response => {
                 console.log(response)
                 this.setState({
@@ -58,10 +58,11 @@ class Companylist extends Component {
             visible: false,
         });
         let postDatas = {
-            uId: RecordsAPI.uId,
-            cId: this.props.companyform.id
+           /* uId: RecordsAPI.uId,*/
+            uId: net.getCookie("userId"),
+            Id: this.props.companyform.id
         }
-        RecordsAPI.removeProjectsCompany(postDatas).then(
+        net.axiosPost("deleteCompany","projectCompanyController",postDatas,net.guid()).then(
             response =>
                 this.props.handleDeleteClick(this.props.companyform)
 

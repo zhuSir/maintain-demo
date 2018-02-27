@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {  Modal, Form, Input} from 'antd';
 import './Companylist.css'
 import * as RecordsAPI from '../../util/RecordsAPI'
+import * as net from '../../util/common';
 const FormItem = Form.Item;
 const formItemLayout = {
     labelCol: {
@@ -87,13 +88,14 @@ class Create_mask extends Component {
                 name: values.name,
                 managerName: values.managerName,
                 managerPhone:  values.managerPhone,
-                mark: values.build,
-                mark: values.deportment,
+                build: values.build,
+                deportment: values.deportment,
                 mark: values.mark,
-                uId: RecordsAPI.uId
+                /*uId: RecordsAPI.uId*/
+                uId: net.getCookie("userId")
             }
             console.log(data)
-            RecordsAPI.createProjectsCompany(data).then(
+            net.axiosPost("saveCompany", "projectCompanyController",data,net.guid()).then(
                 response => {
                     console.log(response.data);
                     this.props.handleNewRecord(response.data);

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Create_mask from './Create_mask'
 import Companyform from './Companyform'
 import './Companylist.css'
-import * as RecordsAPI from '../../util/RecordsAPI'
+/*import * as RecordsAPI from '../../util/RecordsAPI'*/
+import * as net from '../../util/common';
 class Companylist extends Component {
     constructor(props) {
         super(props);
@@ -12,12 +13,12 @@ class Companylist extends Component {
     }
     componentDidMount(){
         const data = {
-            uId: 1
+            uId: net.getCookie("userId")
         }
-        RecordsAPI.getProjectsCompany(data).then(
+        net.axiosPost("listCompany", "projectCompanyController",data,net.guid()).then(
             response => {
                 console.log(response);
-                this.setState({companylist: response.data});
+                this.setState({companylist: response.data.data});
             },
             error => console.log(error)
         );
@@ -33,7 +34,7 @@ class Companylist extends Component {
     }
 
     handleInformationOnClick(company){
-       /* this.props.handleInformationOnClick(company);*/
+        /* this.props.handleInformationOnClick(company);*/
         let data = {
             company: company
         }
@@ -44,7 +45,7 @@ class Companylist extends Component {
         this.props.history.push(path);
     }
 
-  /*  编辑*/
+    /*  编辑*/
     handleUpdate(companyform,data){
         const companyformIndex = this.state.companylist.indexOf(companyform);
         const newCompanylist= this.state.companylist.map( (item, index) => {
@@ -65,7 +66,7 @@ class Companylist extends Component {
         console.log(companyform)
         this.setState({
             companylist: [
-                 ...this.state.companylist,
+                ...this.state.companylist,
                 companyform
             ]
         })
@@ -97,7 +98,7 @@ class Companylist extends Component {
                     ))}
                     </tbody>
                 </table>
-              </div>
+            </div>
         );
     }
 }
