@@ -1,6 +1,8 @@
 import React,{Component} from 'react'
 import CreatCompanyAlert from './CreatCompanyAlert'
 import {message} from 'antd';
+import {Button} from 'antd';
+
 import 'antd/dist/antd.css';
 import * as common from '../../util/common.js';
 
@@ -83,10 +85,10 @@ class Company extends  Component{
 
                 <div className="jumbotron">
                     <h1>{this.state.companyName}</h1>
-                    <p>{this.state.companyInfo}</p>
                     <p>公司负责人：{this.state.companyLeader}</p>
-                    <p>公司负责人电话：{this.state.companyLeaderPhone}</p>
-                    <p>公司地址：{this.state.companyAddress}</p>
+                    <Button   className="ml-5 mt-5" >编辑</Button>
+                    <Button  className="ml-5 mt-5">退出公司</Button>
+
                 </div>
 
             </div>
@@ -117,8 +119,6 @@ class Company extends  Component{
             console.log('没有公司')
             return <CreatCompanyAlert type={1} handleCreatCompany = {this.handleCreatCompanyBackfunction.bind(this)}  />
         }
-
-
     }
 
 

@@ -11,13 +11,10 @@ class UserInfo extends Component {
     constructor(event) {
         super(event);
         this.state = {
-            userID: common.getCookie('userId'),
-            companyName: common.getCookie('companyName'),
-            companyid: common.getCookie('companyId'),
-            createName: common.getCookie('userName'),
-            mobilephone: common.getCookie('phone'),
-            groupid: common.getCookie('groupId'),
-            groupName: common.getCookie('groupName'),
+            companyName: common.getCookie("companyName"),
+            createName: "",
+            mobilephone: "",
+            groupName: "",
             authorityList: [],
             authorityListText: [],
         }
@@ -41,6 +38,24 @@ class UserInfo extends Component {
         let data = {
             userID: id
         };
+
+        let data2 = {
+            userId: id
+        };
+
+        common.axiosPost("getUserById", "userController", data2, common.guid()).then(
+            response => {
+                this.setState({
+                    createName: response.data.data.createName,
+                    mobilephone: response.data.data.mobilephone,
+                    groupName: response.data.data.groupName,
+                })
+            }
+        ).catch(
+            error => {
+                console.log(error)
+            }
+        )
 
         common.axiosPost("getGroupAuIDWithUserID", "authorityController", data, common.guid()).then(
             response => {

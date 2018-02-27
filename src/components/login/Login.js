@@ -147,7 +147,7 @@ class Login extends Component {
                                 ],
                             })(
                                 <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                                       name="password" placeholder="密码"/>
+                                       name="password" type="password" placeholder="密码"/>
                             )}
                         </FormItem>
                         <FormItem>
@@ -206,7 +206,7 @@ class Login extends Component {
                                 ],
                             })(
                                 <Input prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                                       name="password" placeholder="密码"/>
+                                       name="password" type="password" placeholder="密码"/>
                             )}
                         </FormItem>
                         <FormItem>
