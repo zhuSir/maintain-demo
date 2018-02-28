@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Popconfirm, message, Table, Button} from 'antd';
-import * as RecordsAPI from '../../util/RecordsAPI'
 import * as net from '../../util/common';
 
+let startIndex = 0;
 
 export default class Projects extends Component {
 
@@ -37,7 +37,7 @@ export default class Projects extends Component {
 
     }
 
-    handleProjectEditClick(e,project) {
+    handleProjectEditClick(e, project) {
         e.stopPropagation();
         console.log("项目编辑");
         console.log(project);
@@ -65,8 +65,8 @@ export default class Projects extends Component {
         this.props.history.push(path);
     }
 
-    handleDeleteClick(e,project, projectIndex) {
-        console.log(project);
+    handleDeleteClick(e, project, projectIndex) {
+        console.log(projectIndex);
         e.stopPropagation();
         let postDdatas = {
             uId: net.getCookie("userId"),
@@ -76,7 +76,7 @@ export default class Projects extends Component {
         net.axiosPost("deleteProject", "projectController", postDdatas, net.guid()).then(
             response => {
                 message.success("删除成功");
-                const newProjects = this.state.projects.filter((item, index) => index !== projectIndex);
+                const newProjects = this.state.projects.filter((item, index) => index !== (startIndex+projectIndex));
                 this.setState({
                     projects: newProjects
                 });
@@ -94,7 +94,7 @@ export default class Projects extends Component {
         console.log(e);
     }
 
-    handlePopShow(e){
+    handlePopShow(e) {
         e.stopPropagation();
     }
 
@@ -111,37 +111,44 @@ export default class Projects extends Component {
         this.props.history.push(path);
     }
 
+    handleShowTotal(total, range) {
+        if (total > 0)
+            startIndex = range[0] - 1;
+        else
+            startIndex = 0;
+    }
+
     render() {
         let columns = [{
             title: '项目名称',
             dataIndex: 'name',
             key: 'name',
-            width: 400
+            width: "45%"
         }, {
             title: '项目原计划时间',
             dataIndex: 'date',
             key: 'date',
-            width: 200
+            width: "25%"
         }, {
             title: '项目状态',
             dataIndex: 'state',
             key: 'state',
-            width: 80
+            width: "10%"
         }, {
             title: '操作',
             key: 'action',
-            width: 180,
+            width: "20%",
             render: (text, project, index) => (
                 <span>
                      {/*<Button type="primary" className={"mr-1"}*/}
                     {/*onClick={() => this.handleProjectDetailClick(project)}>详情</Button>*/}
                     <Button type="primary" className={"mr-1"}
-                            onClick={(e) => this.handleProjectEditClick(e,project)}>编辑</Button>
+                            onClick={(e) => this.handleProjectEditClick(e, project)}>编辑</Button>
                     <Popconfirm placement="topRight" title={`确定要删除 \"${project.name}\" 这个项目吗?`}
-                                onConfirm={(e)=>this.handleDeleteClick(e,project,index,this)} okText="删除"
+                                onConfirm={(e) => this.handleDeleteClick(e, project, index)} okText="删除"
                                 cancelText="取消"
-                                onCancel={(e)=>this.hanleCancleClick(e,this)}>
-                             <Button type="primary" onClick={(e)=>this.handlePopShow(e)}>删除</Button>
+                                onCancel={(e) => this.hanleCancleClick(e, this)}>
+                             <Button type="primary" onClick={(e) => this.handlePopShow(e)}>删除</Button>
                      </Popconfirm>
                  </span>
             ),
@@ -186,8 +193,11 @@ export default class Projects extends Component {
                     };
                 }} columns={columns} dataSource={data} bordered
                        pagination={{  //分页
-                           total:this.state.projects.length,
-                           pageSize:6,  hideOnSinglePage:false}}/>
+                           total: this.state.projects.length,
+                           pageSize: 6,
+                           showTotal: this.handleShowTotal.bind(this),
+                           hideOnSinglePage: true
+                       }}/>
             </div>
         );
     }
