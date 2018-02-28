@@ -63,7 +63,7 @@ class Company extends  Component{
             };
             common.axiosPost("getCompanyInfo", "groupControllrer", data, common.guid()).then(
                 response => {
-                    console.log(response)
+
                     common.setCookie('companyName',response.data.data.groupName, 60)
                     common.setCookie('companyLeader',response.data.data.createName, 60)
                     common.setCookie('createBy', response.data.data.createBy, 60);
@@ -80,6 +80,86 @@ class Company extends  Component{
                 }
             )
         }
+
+        //  ------------------
+
+        var  data = {
+            name:"张三",
+            age:12,
+            title:"今天下雨了"
+        }
+        data={
+            ...data,
+            content:"我也不知道明天下不下雨"
+        }
+        // console.log(data);
+
+        var  arrList=[
+            {name:"张三",age:12,content:"我是大深化"},
+            {name:"李四",age:18,content:"十大"},
+            {name:"王五",age:14,content:"啊大叔大婶的"},
+            {name:"住6",age:19,content:"个儿童"},
+            {name:"谢5",age:11,content:"还是觉得咖啡还是困"},
+
+        ]
+        arrList=[
+            ...arrList,
+            {name:"新添加的",age:110,content:"阿迪企鹅起舞"},
+
+        ]
+       var arrList1=[
+            {name:"谢000",age:11,content:"还是觉得咖啡还是困"}
+        ]
+        arrList=[...arrList,...arrList1]
+
+        // const recordIndex = this.state.records.indexOf(record);
+        // const newRecords = this.state.records.map( (item, index) => {
+        //     if(index !== recordIndex) {
+        //         return item;
+        //     }
+        //     return {
+        //         ...item,
+        //         ...data
+        //     };
+        // });
+
+        // console.log(arrList);
+        //遍历。。。
+        for (let index of arrList) {
+
+        }
+
+        //替换数据
+        //原数据
+        var record = arrList[0]
+        var newData = {name:"要替换的数据",age:11,content:"要替换的数据"}
+        const recordIndex = arrList.indexOf(record);
+        const  newArr =arrList.map((item,index)=>{
+            // console.log(item,index);
+
+            if(index!=recordIndex)
+            {
+                return item;
+            }
+            return{
+                ...newData
+            }
+        })
+        // console.log(newArr);
+
+        //filter 过滤器
+        // const newRecords = this.state.records.filter( (item, index) => index !== recordIndex);
+        // this.setState({
+        //     records: newRecords
+        // });
+       var arrList22=[1,2,3,4,5,6,6,4,3,2,23,23,42342,]
+        var  num = arrList22.reduce(function (first,second) {
+            // console.log(first,second.age);
+            return first + second;
+        })
+        console.log(num)
+
+        //  ---------------------
 
     }
 
@@ -185,10 +265,9 @@ class Company extends  Component{
                 <div className="jumbotron">
                     <h1>{common.getCookie("companyName")}</h1>
                     <p>公司负责人：{this.state.companyLeader}</p>
-                    <Button   className="ml-5 mt-5" onClick={this.editBtnClick.bind(this)}>编辑</Button>
+                    <Button   className="ml-5 mt-5" onClick={this.editBtnClick.bind(this)}>编辑公司</Button>
                     <Popconfirm title="确定要退出公司？" onConfirm={this.confirm.bind(this)} onCancel={this.cancel.bind(this)} okText="退出" cancelText="取消">
-
-                      <Button  className="ml-5 mt-5">退出公司</Button>
+                        <Button  className="ml-5 mt-5">退出公司</Button>
                     </Popconfirm>
 
                 </div>
@@ -210,7 +289,8 @@ class Company extends  Component{
         console.log('chenggongle')
         this.setState({
             isHaveCom:true,
-            companyName:event
+            companyName:event,
+            companyLeader:common.getCookie('userName')
         })
     }
 

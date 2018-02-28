@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Modal, Button, Input} from 'antd';
+import {Modal, Button, Input,message} from 'antd';
+import * as common from '../../util/common.js';
 
 export default  class InviteGroupPeople extends Component {
     //  type 1，邀请，2删除
@@ -23,6 +24,11 @@ export default  class InviteGroupPeople extends Component {
     }
 
     showdeleteModal = () => {
+        if(common.getCookie("isConpanyLeader")==0)
+        {
+            message.error("您没有权限删除组")
+            return;
+        }
         this.setState({
             visible: true,
             type: 2,

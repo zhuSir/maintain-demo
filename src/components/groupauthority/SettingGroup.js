@@ -7,32 +7,14 @@ export  default class SettingGroup extends Component {
 
     constructor(event) {
         super(event);
-        // let isEdit = common.getCookie('createBy');
-        // if (isEdit == common.getCookie('createBy')) {
-        //     isEdit = true;
-        // }
-        // else {
-        //     isEdit = false;
-        // }
+
         this.state = {
             groupList: [],
-
             itemList: [],
             editResult: [],
             havaDate:false
         };
     }
-
-// { id:1,groupName:'技术研发部',item:[],rowKey:"1"},
-// { id:2,groupName:'运维部',item:[],rowKey:"1"},
-// { id:3,groupName:'设计部',item:[1,2,3],rowKey:"1"},
-// { id:6,groupName:'我的小卖部',item:[1],rowKey:"1"},
-// {id:1,title:"权限1",},
-// {id:2,title:"权限2",},
-// {id:3,title:"权限3",},
-// {id:4,title:"权限4",},
-// {id:5,title:"权限5",},
-// {id:6,title:"权限6",}
     componentDidMount() {
         const data = {
             companyId: common.getCookie("companyId")
@@ -43,10 +25,8 @@ export  default class SettingGroup extends Component {
             return;
         }
 
-
         common.axiosPost("getGroupAuthorityList", "authorityController", data, common.guid()).then(
             response => {
-
                 this.setState({
                     groupList: response.data.data,
                     havaDate:true,
@@ -59,7 +39,6 @@ export  default class SettingGroup extends Component {
                     this.setState({
                         havaDate:false,
                     })
-
             }
         )
         common.axiosPost("getAllList", "authorityController", data, common.guid()).then(
@@ -75,9 +54,7 @@ export  default class SettingGroup extends Component {
         )
     }
 
-
     onRowClick() {
-
     }
 
     renderError() {
@@ -99,8 +76,8 @@ export  default class SettingGroup extends Component {
     }
     renderData() {
 
-        function onChange(groupId, checkedValues,) {
-
+        function onChange(groupId, checkedValues) {
+            console.log(groupId,checkedValues);
             const data = {
                 groupID: groupId.id,
                 auID: checkedValues,
@@ -108,7 +85,6 @@ export  default class SettingGroup extends Component {
             };
             common.axiosPost("setGroupAu", "authorityController", data, common.guid()).then(
                 response => {
-
                 }
             ).catch(
                 error => {
@@ -123,28 +99,57 @@ export  default class SettingGroup extends Component {
             title: '组名称',
             dataIndex: 'groupName',
             key: 'groupName',
+
         }, {
             title: '设置权限',
             key: 'action',
             render: (text, record) => (
 
-                <Checkbox.Group
+                  <Checkbox.Group
                     key='ddd'
                     style={{width: '60%'}}
                     onChange={onChange.bind(this, record)}
                      defaultValue={record.authorityArr}>
-                        <Row>
+                          <Row >
+                               {this.state.itemList.map((item) => (
+                                   <Col span={8}  key={item.id}><Checkbox   key={item.id} value={item.id} disabled={common.getCookie("isConpanyLeader")==0}  defaultChecked={true}>{item.name}</Checkbox></Col>
 
-                            {this.state.itemList.map((item) => (
-                                    <Col span={8}><Checkbox    key={item.id} value={item.id} disabled={common.getCookie("companyId")!=0}  defaultChecked={true}>{item.name}</Checkbox></Col>
+                                   ))}
 
-                            ))}
                         </Row>
+
                 </Checkbox.Group>
+
             ),
-        }]
+        },
+            {
+                title: '操作',
+                dataIndex: 'groupName1',
+                key: 'groupName1',
+                render: (text, record) => (
+                    <Button  className="ml-5 " disabled={common.getCookie("isConpanyLeader")==0}>保存</Button>
+                ),
+            }]
         return (
-            <Table rowKey="id"  key="ddd" columns={columns} dataSource={this.state.groupList}/>
+            <Table
+                rowKey="id"
+                key="ddd"
+                columns={columns}
+                dataSource={this.state.groupList}
+                pagination={{  //分页
+                    total:this.state.groupList.length,
+                    pageSize:7,  hideOnSinglePage:false}}
+                onRow={(record) => {
+                    return {
+                        onClick: () => {
+                            // message.error(record.groupName)
+                        },       // 点击行
+                        onMouseEnter: () => {
+                        },  // 鼠标移入行
+                    };
+                  }
+                }
+            />
         )
-    }f
+    }
 }

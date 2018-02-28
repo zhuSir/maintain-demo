@@ -22,11 +22,13 @@ class GroupList extends Component {
         };
     }
 
+    //删除组
     removeGroup(id) {
         const groupList = [...this.state.groupList];
         let data = {
             id: id
         };
+
 
         common.axiosPost("removeGroup", "groupControllrer", data, common.guid()).then(
             response => {
@@ -47,6 +49,7 @@ class GroupList extends Component {
         )
     }
 
+    //创建组请求，创建组的弹窗回掉过来的组名称
     handleCreatCompanyBackfunction(groupName) {
         const {groupList} = this.state;
         const data = {
@@ -68,7 +71,7 @@ class GroupList extends Component {
             }
         )
     }
-
+    // 邀请成员到相应的组，
     inviteGroupMember(groupName, groupID, phone) {
         console.log(groupName, groupID, phone);
 
@@ -134,6 +137,7 @@ class GroupList extends Component {
         return true;
     }
 
+    //查看组成员，页面与页面之间的传值，以及跳转
     lookGroupListBtnClick(id,event){
         console.log(id);
         var path = {
@@ -183,9 +187,9 @@ class GroupList extends Component {
         return (
             <div>
                 <CreatCompanyAlert handleCreatgroup={this.handleCreatCompanyBackfunction.bind(this)} type={2}/>
-                <Table style={{ marginTop: 16 }}
+                <Table style={{ marginTop: 10 }}
                     rowKey="id"
-                    className="ml-5 mr-5 mt-3"
+                    className=""
                     columns={columns}
                     dataSource={this.state.groupList}
                        key="ddd"

@@ -52,6 +52,9 @@ export default  class CreatCompanyAlert extends Component {
             common.axiosPost("creatCompany", "groupControllrer", data, common.guid()).then(
                 response => {
                     common.setCookie('companyId', response.data.data.companyID, 60);
+                    common.setCookie('companyName',this.state.groupName, 60);
+                    common.setCookie('isConpanyLeader',1, 60);
+
                     this.props.handleCreatCompany(this.state.groupName);
                 }
             ).catch(
