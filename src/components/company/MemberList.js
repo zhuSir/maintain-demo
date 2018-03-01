@@ -18,6 +18,11 @@ class MemberList extends Component {
     }
 
     handleDele(id, event) {
+        if(common.getCookie("isConpanyLeader")==0)
+        {
+            message.error("您没有权限删除成员")
+            return;
+        }
         const userList = [...this.state.userList];
 
         let data = {

@@ -3,7 +3,7 @@ import { Modal, Button,message,Input } from 'antd';
 import 'antd/dist/antd.css';
 import * as common from '../../util/common.js';
 
-export  default class  editCompany extends  Component {
+export  default class  EditCompany extends  Component {
 
 
 
