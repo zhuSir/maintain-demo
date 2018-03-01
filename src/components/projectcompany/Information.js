@@ -36,11 +36,11 @@ class Information extends Component {
                     </li>*/}
                     <li className="list-group-item beish">
                         <div className="reference">
-                            <p className="navbar-text">备注: <div className="discribe" id="discribe">{this.props.location.state.company.mark}</div></p>
+                            <p className="navbar-text">建设单位: <div className="discribe" id="discribe">{this.props.location.state.company.mark}</div></p>
                         </div>
                     </li>
                 </List>
-                <div style={{ background: '#ECECEC', padding: '30px' }}>
+               {/* <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
                         <Col span={8}>
                             <Card title="创建日期" bordered={false}>2018-02-8</Card>
@@ -49,7 +49,7 @@ class Information extends Component {
                             <Card title="结束日期" bordered={false}>2018-02-09</Card>
                         </Col>
                     </Row>
-                </div>
+                </div>*/}
             </div>
         )
     }

@@ -71,7 +71,6 @@ class Companylist extends Component {
             ]
         })
     }
-
     render() {
         return (
             <div className="ml-4 mr-4 mt-4 mb-4">
@@ -81,6 +80,7 @@ class Companylist extends Component {
                     <thead>
                     <tr className="tabs">
                         <th>公司名称</th>
+                        {/*<th>公司类型</th>*/}
                         <th>负责人</th>
                         <th>联系电话</th>
                         <th>状态</th>

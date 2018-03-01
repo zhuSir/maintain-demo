@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 /*import * as RecordsAPI from '../../util/RecordsAPI'*/
 import 'antd/dist/antd.css';
+import Companyform from './Companyform.css'
 import { Modal} from 'antd';
 import * as net from "../../util/common";
+import {message} from "antd/lib/index";
 class Companylist extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +27,7 @@ class Companylist extends Component {
             uId: net.getCookie("userId"),
             Id: this.props.companyform.id,
             name: this.refs.name.value,
+           /* firstPart: this.refs.firstPart.value,*/
             managerName: this.refs.managerName.value,
             managerPhone: this.refs.managerPhone.value
         }
@@ -78,8 +81,9 @@ class Companylist extends Component {
     }
     companyRom() {
         return (
-            <tr>
+            <tr className="trs">
                 <td>{this.props.companyform.name}</td>
+                {/*<td>{this.props.companyform.firstPart}</td>*/}
                 <td>{this.props.companyform.managerName}</td>
                 <td>{this.props.companyform.managerPhone}</td>
                 <td>
@@ -88,6 +92,8 @@ class Companylist extends Component {
                     <Modal
                         title="删除"
                         visible={this.state.visible}
+                        okText="确定"
+                        cancelText="取消"
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
                     >
@@ -101,8 +107,9 @@ class Companylist extends Component {
 
      companyDom() {
          return (
-             <tr>
+             <tr className="trs">
                  <td><input type="text" className="form-control" defaultValue={this.props.companyform.name} ref="name" /></td>
+                 {/*<td><input type="text" className="form-control" defaultValue={this.props.companyform.firstPart} ref="firstPart" /></td>*/}
                  <td><input type="text" className="form-control" defaultValue={this.props.companyform.managerName} ref="managerName" /></td>
                  <td><input type="text" className="form-control" defaultValue={this.props.companyform.managerPhone} ref="managerPhone" /></td>
                  <td>

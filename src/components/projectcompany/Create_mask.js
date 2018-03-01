@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {  Modal, Form, Input} from 'antd';
+import {  Modal, Form, Input, Checkbox, Row, Col} from 'antd';
 import './Companylist.css'
-import * as RecordsAPI from '../../util/RecordsAPI'
+/*import * as RecordsAPI from '../../util/RecordsAPI'*/
 import * as net from '../../util/common';
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -14,6 +14,9 @@ const formItemLayout = {
         sm: { span: 12 },
     },
 };
+function onChange(checkedValues) {
+    console.log('checked = ', checkedValues);
+}
 const CollectionCreateForm = Form.create()(
     (props) => {
         const { visible, onCancel, onCreate, form } = props;
@@ -24,16 +27,29 @@ const CollectionCreateForm = Form.create()(
                 title="创建公司"
                 person="person is not null"
                 telephone="telephonen is not null"
-                okText="Create"
+                okText="创建"
+                cancelText="取消"
                 onCancel={onCancel}
                 onOk={onCreate}
             >
                 <Form layout="vertical" >
+                    <FormItem label="公司类型">
+                        {getFieldDecorator('states', {
+                            rules: [{ required: true, message: '公司类型不能为空!' }],
+                        })(
+                            <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
+                                <Row>
+                                    <Col span={6}><Checkbox value="1" checked="checked" >甲方公司</Checkbox></Col>
+                                    <Col span={6}><Checkbox value="0" >乙方公司</Checkbox></Col>
+                                </Row>
+                            </Checkbox.Group>
+                        )}
+                    </FormItem>
                     <FormItem label="公司名称">
                         {getFieldDecorator('name', {
                             rules: [{ required: true, message: '公司名称不能为空!' }],
                         })(
-                            <Input />
+                            <Input type="textarea"/>
                         )}
                     </FormItem>
                     <FormItem label="公司负责人">
@@ -47,18 +63,12 @@ const CollectionCreateForm = Form.create()(
                         {getFieldDecorator('managerPhone',{
                             rules: [{ required: true, message: '电话号码不能为空!' }],
                         })(
-                            <Input  type="number" maxlength="11"/>
+                            <Input  type="telephone" maxlength="11"/>
                         )}
                     </FormItem>
-                    {/*<FormItem label="建设单位">
-                        {getFieldDecorator('build')(<Input type="textarea" />)}
-                    </FormItem>
-                    <FormItem label="归属部分">
-                        {getFieldDecorator('deportment')(<Input type="textarea" />)}
-                    </FormItem>*/}
-                    <FormItem label="备注">
+                    {/*<FormItem label="建设单位:">
                         {getFieldDecorator('mark')(<Input type="textarea" />)}
-                    </FormItem>
+                    </FormItem>*/}
                 </Form>
             </Modal>
         );
@@ -75,6 +85,15 @@ class Create_mask extends Component {
         this.setState({ visible: false });
     }
     handleCreate = () => {
+       /* var states={
+            if(checkedValues == 1){
+                firstPart ="甲方公司"
+            }else(checkedValues == 0){
+                firstPart ="乙方公司"
+            }else{
+                firstPart ="甲方/乙方公司"
+            }
+        }*/
         const form = this.form;
         form.validateFields((err, values) => {
             if (err) {
@@ -98,7 +117,7 @@ class Create_mask extends Component {
             net.axiosPost("saveCompany", "projectCompanyController",data,net.guid()).then(
                 response => {
                     console.log(response.data);
-                    this.props.handleNewRecord(response.data);
+                    /*this.props.handleNewRecord(response.data);*/
                 }
 
             ).catch(
