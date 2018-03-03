@@ -70,7 +70,10 @@ export default  class RolePage extends Component{
             beforData:[],
             searchText:'',
             rolecode:'',
-            rolename:''
+            rolename:'',
+            jibaDa:'1'
+
+
         }
 
         //初始化的时候就请求数据======================
