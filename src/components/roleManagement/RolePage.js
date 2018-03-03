@@ -42,15 +42,6 @@ function handleMenuClick(e) {
 }
 
 
-const data = [];
-// for (let i = 0; i < 19; i++) {
-//     data.push({
-//         key: i.toString(),
-//         mobilephone: `老李 ${i}`,
-//         createName: `福建${i}`,
-//     });
-// }
-
 const EditableCell = ({ editable, value, onChange }) => (
     <div>
         {editable ? <Input style={{ margin: '-5px 0' }} value={value} onChange={e => onChange(e.target.value)} /> : value}
