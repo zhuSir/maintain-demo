@@ -70,7 +70,10 @@ export default  class RolePage extends Component{
             beforData:[],
             searchText:'',
             rolecode:'',
-            rolename:''
+            rolename:'',
+            jibaDa:'1'
+
+
         }
 
         //初始化的时候就请求数据======================
@@ -85,8 +88,15 @@ export default  class RolePage extends Component{
 
             let res = responseObj.data.data;
             if (res.error == null) {
-
+                message.success(res.info);
+                this.setState({
+                    responData : res,
+                    isLoad:true,
+                    beforData:res
+                });
             }else if(res.code == 1) {
+
+                message.warning(res.info)
 
             }
         }).catch(error =>{
@@ -99,6 +109,7 @@ export default  class RolePage extends Component{
             }
         );
     }
+
 
 
     // 网络请求  请求角色接口 =======================================
@@ -332,6 +343,7 @@ export default  class RolePage extends Component{
         </div>)
 
     }
+
 
     // 查看权限的操作
     addpermissionSetting =() =>{

@@ -42,7 +42,7 @@ class SysMenu extends Component{
                     <Menu.Item key="部门列表">
                         <Link to="/group">
                             <Icon type="team" />
-                            <span>部门列表</span>
+                            <span>分组列表</span>
                         </Link>
                     </Menu.Item>
                     <Menu.Item key="权限管理">
